@@ -1,0 +1,90 @@
+.Comments-App {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 75%;
+    min-height: 50px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #C4C4C4;
+    border-radius: 5px;
+    padding: 20px 0px;
+}
+
+.comments-add-comment {
+    background: #c4c4c485;
+    width: 75%;
+    height: 55px;
+    padding: 20px 0px;
+    margin: auto;
+    border-radius: 50px;
+    position: relative;
+    display: flex;
+}
+
+.comments-add-icon-container {
+    margin: auto;
+    margin-right: 5px;
+    margin-left: 20px;
+}
+
+.comments-add-comment-input-container {
+    width: 81.5%;
+    /* margin-left: 5px; */
+}
+
+.comments-add-comment-input {
+    width: 100%;
+    overflow-y: scroll;
+    max-height: 50px;
+}
+
+.comments-add-comment-input:focus {
+    outline: none;
+}
+
+.MuiInputBase-input {
+    margin-left: 5px;
+}
+
+.comments-add-button {
+    height: 75px;
+    margin-right: 5px;
+}
+
+.comments-comment-button-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.comments-comment-button {
+    height: 25px;
+}
+
+.comments-comment-button-text {
+    height: 20px;
+    margin: auto;
+    padding-top: 5px;
+}
+
+.comments-comments {
+    text-align: left;
+    margin: auto;
+    margin-bottom: 20px;
+    background: #E0E0E0;
+    width: 71%;
+    min-height: 80px;
+    padding: 5px 13px 30px 20px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.comments-section {
+    max-height: 500px;
+    overflow-y: scroll;
+}

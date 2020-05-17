@@ -1,0 +1,43 @@
+.Login-App {
+    text-align: center;
+}
+
+.login-input-container {
+    margin: auto;
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 310px;
+    border-width: 2px;
+    border-style: solid;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.login-logo {
+    font-size: 40px;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 50px;
+    width: 60px;
+    padding: 11px 5px;
+    margin-bottom: 10px;
+}
+
+.login-button-container {
+    margin-top: 10px;
+    margin-bottom: 3px;
+    padding: 0px 20px 0px 20px;
+}
+
+.login-button {
+    width: 240px;
+}
+
+.reg-log {
+    color: blue;
+    font-size: 15px;
+    margin-top: 10px;
+}

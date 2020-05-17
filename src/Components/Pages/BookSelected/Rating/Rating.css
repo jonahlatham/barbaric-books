@@ -1,0 +1,24 @@
+.Rating-App {
+    margin: auto;
+    margin-top: 20px;
+    width: 75%;
+    min-height: 300px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #C4C4C4;
+    border-radius: 5px;
+    position: relative;
+}
+
+.rating-summary-container {
+    text-align: left;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 20px;
+    width: 90%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #C4C4C4;
+    border-radius: 5px;
+}
