@@ -42,7 +42,7 @@ const Login = () => {
             label="Password"
             type="search"
             variant="outlined"
-            placeholder="Must be 8-10 Characters"
+            placeholder="Is it really hard enough"
           />
           <div className="register-button-container">
             <Button variant="contained" className="register-button">

@@ -8,14 +8,14 @@
 }
 
 .topnav-left-side {
-    width: 48%;
+    width: 78%;
     padding: 0px 0px 0px 20px;
     display: flex;
     justify-content: flex-start;
 }
 
 .topnav-right-side {
-    width: 48%;
+    width: 18%;
     padding: 0px 20px 0px 0px;
     display: flex;
     justify-content: flex-end;
