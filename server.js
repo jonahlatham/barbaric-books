@@ -25,18 +25,18 @@ massive(process.env.DATABASE_URL)
 
 //////////////////////////////////////////////////////////////////
 
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET,
-//     cookie: {
-//       //days hours minutes seconds milseconds
-//       expires: 1 * 24 * 60 * 60 * 1000
-//     },
-//     saveUninitialized: false,
-//     rolling: true,
-//     resave: false
-//   })
-// );
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    cookie: {
+      //days hours minutes seconds milseconds
+      expires: 1 * 24 * 60 * 60 * 1000
+    },
+    saveUninitialized: false,
+    rolling: true,
+    resave: false
+  })
+);
 
 // app.use('/api/*', (req, res, next) => {
 //   if (!req.session.user) {
@@ -47,52 +47,24 @@ massive(process.env.DATABASE_URL)
 // });
 
 // app.get('/auth/user', (req, res, next) => {
-//     if (req.session.user) {
-//         res.send({ success: true, user: req.session.user })
-//     } else {
-//         res.send({ success: false })
-//     }
-// })
+//   if (req.session.user) {
+//     res.send({ success: true, user: req.session.user });
+//   } else {
+//     res.send({ success: false });
+//   }
+// });
 
-// app.delete('/auth/user', (req, res, next) => {
-//     req.session.destroy()
-//     res.send({ success: true })
-// })
+app.delete('/auth/user', (req, res, next) => {
+  req.session.destroy();
+  res.send({ success: true });
+});
 
 ///////////////////////////////////////////////////////////////////
-
-// app.post('/auth/login', (req, res, next) => {
-//     const db = app.get('db');
-//     const { email, password } = req.body
-//     let catchUser = {}
-//     db.people.findOne({ email })
-//         .then((user) => {
-//             if (!user) {
-//                 throw 'We could not find a user for this email. Please register.'
-//             } else {
-//                 catchUser = user;
-//                 return bcrypt.compare(password, user.password)
-//             }
-//         })
-//         .then((isMatch) => {
-//             if (!isMatch) {
-//                 throw `Your credentials don't match our records.`
-//             }
-//             delete catchUser.password
-//             req.session.user = catchUser;
-//             res.send({ success: true, user: catchUser })
-//         })
-//         .catch((err) => {
-//             res.send({ success: false, err })
-//         })
-// })
-
-////////////////////////////////////////////////////////////////////////////
 //Register
 app.post('/auth/register', (req, res, next) => {
   const db = app.get('db');
   const { Username, Email, Password } = req.body;
-  db.User.findOne({ Email })
+  db.User.findOne({ Username })
     .then(user => {
       const condition1 = /^[a-zA-Z0-9]+$/.test(Username);
       const condition2 = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
@@ -102,11 +74,17 @@ app.post('/auth/register', (req, res, next) => {
         Password
       );
       if (user) {
-        throw 'This email is already in use, please login.';
+        throw 'This username is already in use, please pick a different one.';
       } else if (!condition1 || !condition2 || !condition3) {
         throw 'Make sure all of the boxes are green before submitting.';
       } else {
-        return bcrypt.hash(Password, 10);
+        return db.User.findOne({ Email }).then(ema => {
+          if (ema) {
+            throw 'This email is already in use, please login.';
+          } else {
+            return bcrypt.hash(Password, 10);
+          }
+        });
       }
     })
     .then(hash => {
@@ -151,9 +129,132 @@ app.post('/auth/login', (req, res, next) => {
     });
 });
 //////////////////////////////////////////////////////////////////////////////////////
+//Make Comments
+app.post('/api/comment', (req, res, next) => {
+  const db = app.get('db');
+  const date = new Date();
+  const { Comment /*, BookId */ } = req.body;
+  db.Comments.insert({
+    Comment,
+    // UserId: req.session.user.id,
+    TimePosted: date,
+    // BookId: ????,
+    IsActive: true
+  })
+    .then(item => {
+      res.send({ success: true, item });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
 
-//all users
+//Get Comments
+app.get('/api/comments', (req, res, next) => {
+  const db = app.get('db');
+  db.Comments.find()
+    .then(comment => {
+      res.send({ Comments: comment });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
 
+//Get Replies
+app.get('/api/replies', (req, res, next) => {
+  const db = app.get('db');
+  db.CommentReply.find()
+    .then(comment => {
+      res.send({ CommentReply: comment });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
+
+// Make Replies
+app.post('/api/replies', (req, res, next) => {
+  const db = app.get('db');
+  const date = new Date();
+  const { Comment /*, BookId */ } = req.body;
+  db.CommentReply.insert({
+    Comment,
+    // UserId: req.session.user.id,
+    // BookId: ????,
+    //CommentId:????,
+    TimePosted: date,
+    IsActive: true
+  })
+    .then(item => {
+      res.send({ success: true, item });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
+
+//////////////////////////////////////////////////////////////////
+//Get Ratings
+app.get('/api/rating', (req, res, next) => {
+  const db = app.get('db');
+  db.Rating.find()
+    .then(rating => {
+      res.send({ Rating: rating });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
+
+//Make Rating
+app.post('/api/rating', (req, res, next) => {
+  const db = app.get('db');
+  const { SuggestiveContent, Rating, Description /*, BookId */ } = req.body;
+  db.Rating.insert({
+    SuggestiveContent,
+    Rating,
+    Description
+    // UserId: req.session.user.id,
+    // BookId: ????,
+  })
+    .then(item => {
+      res.send({ success: true, item });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
+//////////////////////////////////////////////////////////////////
+//Get Book
+app.get('/api/book', (req, res, next) => {
+  const db = app.get('db');
+  db.Book.find()
+    .then(book => {
+      res.send({ Book: book });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
+
+//Make Book
+app.post('/api/book', (req, res, next) => {
+  const db = app.get('db');
+  const { BookName, AuthorName, BookSummary /*, BookId */ } = req.body;
+  db.Book.insert({
+    BookName,
+    AuthorName,
+    BookSummary
+    // UserId: req.session.user.id,
+  })
+    .then(item => {
+      res.send({ success: true, item });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
 //////////////////////////////////////////////////////////////////
 
 // app.get('/*', (req, res) => {

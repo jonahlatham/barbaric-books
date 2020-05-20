@@ -5,23 +5,33 @@ const Rating = () => {
   return (
     <div className="Rating-App">
       <div className="rating-summary-container">
-        <strong>Sex & Nudity:</strong>
+        <strong>
+          Sex & Nudity: <i>PG</i>
+        </strong>
         <p>description</p>
       </div>
       <div className="rating-summary-container">
-        <strong>Violence & Gore:</strong>
+        <strong>
+          Violence & Gore: <i>PG-13</i>
+        </strong>
         <p>description</p>
       </div>
       <div className="rating-summary-container">
-        <strong>Profanity:</strong>
+        <strong>
+          Profanity: <i>R</i>
+        </strong>
         <p>description</p>
       </div>
       <div className="rating-summary-container">
-        <strong>Alcohol/Drugs/Smoking:</strong>
+        <strong>
+          Alcohol/Drugs/Smoking: <i>PG-13</i>
+        </strong>
         <p>description</p>
       </div>
       <div className="rating-summary-container">
-        <strong>Frightening & Intense Scenes:</strong>
+        <strong>
+          Frightening & Intense Scenes: <i>PG-13</i>
+        </strong>
         <p>description</p>
       </div>
     </div>

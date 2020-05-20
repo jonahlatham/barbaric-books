@@ -29,7 +29,7 @@ const AddBook = () => {
   return (
     <div className="AddBook-App">
       <div className="add-book-rating-container">
-        <div className="add-book-summary-container">
+        <div className="add-book-text-boxes-container">
           <TextField
             autoFocus
             id="outlined-multiline-static"
@@ -39,12 +39,12 @@ const AddBook = () => {
             rows={10}
             variant="outlined"
           />
+          <SexNudes />
+          <ViolenceGore />
+          <Profanity />
+          <AlcoholDrugSmoking />
+          <FrighteningIntense />
         </div>
-        <SexNudes />
-        <ViolenceGore />
-        <Profanity />
-        <AlcoholDrugSmoking />
-        <FrighteningIntense />
         <div className="add-book-button">
           <Button color="primary">Add Book</Button>
         </div>

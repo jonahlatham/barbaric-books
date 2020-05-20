@@ -21,39 +21,35 @@ const SexAndNudity = () => {
   const [value, setValue] = React.useState('Controlled');
   return (
     <div>
-      <div>
-        <div className="add-book-rate-age">
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel id="demo-simple-select-outlined-label">
-              Sex & Nudity
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              //   value={age}
-              label="Rate Severity"
-            >
-              <MenuItem value="">
-                <em>Rate the age group</em>
-              </MenuItem>
-              <MenuItem value={10}>PG</MenuItem>
-              <MenuItem value={20}>PG-13</MenuItem>
-              <MenuItem value={30}>R</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <div>
-          <TextField
-            label="Sex & Nudity"
-            id="outlined-size-small"
-            placeholder="Be descriptive"
-            variant="outlined"
-            size="small"
-            multiline
-            rows={5}
-          />
-        </div>
+      <div className="add-book-rate-age">
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel id="demo-simple-select-outlined-label">
+            Sex & Nudity
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            //   value={age}
+            label="Rate Severity"
+          >
+            <MenuItem value="">
+              <em>Rate the age group</em>
+            </MenuItem>
+            <MenuItem value={10}>PG</MenuItem>
+            <MenuItem value={20}>PG-13</MenuItem>
+            <MenuItem value={30}>R</MenuItem>
+          </Select>
+        </FormControl>
       </div>
+      <TextField
+        label="Sex & Nudity"
+        id="outlined-size-small"
+        placeholder="Be descriptive"
+        variant="outlined"
+        size="small"
+        multiline
+        rows={5}
+      />
     </div>
   );
 };

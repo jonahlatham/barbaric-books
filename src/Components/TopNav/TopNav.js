@@ -16,9 +16,6 @@ export default class TopNav extends Component {
           <Link className="link" to="/AddBook">
             Add Book
           </Link>
-          <Link className="link" to="/Home">
-            Home
-          </Link>
         </div>
         <div className="topnav-right-side">
           <Link className="link topnav-link-on-right" to="/Login">

@@ -42,7 +42,7 @@ const Login = () => {
             label="Password"
             type="search"
             variant="outlined"
-            placeholder="Is it really hard enough"
+            placeholder="Please make it hard"
           />
           <div className="register-button-container">
             <Button variant="contained" className="register-button">
