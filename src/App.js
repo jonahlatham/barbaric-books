@@ -8,24 +8,47 @@ import Register from './Components/Pages/Register/Register';
 import AllBooks from './Components/Pages/AllBooks/AllBooks';
 import AddBook from './Components/Pages/AddBook/AddBook';
 import BookSelected from './Components/Pages/BookSelected/BookSelected';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
-export default class App extends Component {
+class App extends Component {
+  state = {
+    isLoading: true
+  };
+
+  componentDidMount() {
+    this.setState({ isLoading: false });
+    axios.get('/auth/user').then(response => {
+      if (response.data.success) {
+        this.props.dispatch({ type: 'SET_USER', payload: response.data.user });
+      }
+    });
+  }
   render() {
+    let authRoutes = '';
+    if (this.props.user) {
+      authRoutes = [
+        <Route key={1} path="/AllBooks" component={AllBooks} />,
+        <Route key={2} path="/AddBook" component={AddBook} />,
+        <Route key={3} path="/BookSelected" component={BookSelected} />,
+        <Route key={4} path="/Home" component={Home} />
+      ];
+    }
     return (
       <div className="App">
         <Router>
-          <TopNav />
+          {this.props.user ? <TopNav /> : ''}
           <Switch>
-            <Route path="/Home" component={Home} />
-            <Route path="/AllBooks" component={AllBooks} />
-            <Route path="/AddBook" component={AddBook} />
-            <Route path="/BookSelected" component={BookSelected} />
-            <Route path="/Login" component={Login} />
+            {authRoutes}
             <Route path="/Register" component={Register} />
-            {/* <Route path="/" component={Home} /> */}
+            <Route path="/" component={Login} />
           </Switch>
         </Router>
       </div>
     );
   }
 }
+
+export default connect(storeObject => {
+  return storeObject;
+})(App);

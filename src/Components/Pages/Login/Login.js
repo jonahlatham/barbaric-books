@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import './Login.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,8 +16,33 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Login = () => {
+function Login(props) {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const classes = useStyles();
+
+  const handleLogin = () => {
+    const body = {
+      Email: email,
+      Password: password
+    };
+    axios
+      .post('/auth/login', body)
+      .then(response => {
+        if (response.data.success) {
+          props.dispatch({
+            type: 'SET_USER',
+            payload: response.data.User
+          });
+          props.history.push('/Home');
+        } else {
+          alert(response.data.err);
+        }
+      })
+      .catch(err => {
+        alert(err);
+      });
+  };
 
   return (
     <div className="Login-App">
@@ -23,12 +50,12 @@ const Login = () => {
         <div className="login-input-container">
           <div className="login-logo">BB</div>
           <TextField
-          className='text-me-maybe'
             autoFocus
             id="outlined-search"
             label="Email or Username"
             type="search"
             variant="outlined"
+            onChange={e => setEmail(e.target.value)}
             placeholder="Did you make it unique?"
           />
           <TextField
@@ -36,10 +63,15 @@ const Login = () => {
             label="Password"
             type="search"
             variant="outlined"
+            onChange={e => setPassword(e.target.value)}
             placeholder="Don't tell me you forgot..."
           />
           <div className="login-button-container">
-            <Button variant="contained" className="login-button">
+            <Button
+              onClick={handleLogin}
+              variant="contained"
+              className="login-button"
+            >
               Login
             </Button>
           </div>
@@ -50,6 +82,8 @@ const Login = () => {
       </form>
     </div>
   );
-};
+}
 
-export default Login;
+export default connect(storeObject => {
+  return storeObject;
+})(Login);

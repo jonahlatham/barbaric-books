@@ -38,21 +38,21 @@ app.use(
   })
 );
 
-// app.use('/api/*', (req, res, next) => {
-//   if (!req.session.user) {
-//     res.send({ success: false, message: 'Please login.' });
-//   } else {
-//     next();
-//   }
-// });
+app.use('/api/*', (req, res, next) => {
+  if (!req.session.User) {
+    res.send({ success: false, message: 'Please login.' });
+  } else {
+    next();
+  }
+});
 
-// app.get('/auth/user', (req, res, next) => {
-//   if (req.session.user) {
-//     res.send({ success: true, user: req.session.user });
-//   } else {
-//     res.send({ success: false });
-//   }
-// });
+app.get('/auth/user', (req, res, next) => {
+  if (req.session.User) {
+    res.send({ success: true, user: req.session.User });
+  } else {
+    res.send({ success: false });
+  }
+});
 
 app.delete('/auth/user', (req, res, next) => {
   req.session.destroy();
@@ -76,7 +76,7 @@ app.post('/auth/register', (req, res, next) => {
       if (user) {
         throw 'This username is already in use, please pick a different one.';
       } else if (!condition1 || !condition2 || !condition3) {
-        throw 'Make sure all of the boxes are green before submitting.';
+        throw "The boxes aren't filled out correctly";
       } else {
         return db.User.findOne({ Email }).then(ema => {
           if (ema) {
@@ -93,7 +93,7 @@ app.post('/auth/register', (req, res, next) => {
     .then(user => {
       delete user.Password;
       req.session.User = user;
-      res.send({ success: true, user });
+      res.send({ success: true, User: user });
     })
     .catch(err => {
       res.send({ success: false, err });

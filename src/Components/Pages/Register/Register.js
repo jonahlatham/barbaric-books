@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import './Register.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,8 +16,34 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Login = () => {
+const Register = props => {
+  const [username, setUsername] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const classes = useStyles();
+
+  const handleRegister = () => {
+    const body = {
+      Username: username,
+      Email: email,
+      Password: password
+    };
+    axios.post('/auth/register', body)
+      .then(response => {
+        if (response.data.success) {
+          props.dispatch({
+            type: 'SET_USER',
+            payload: response.data.User
+          });
+          props.history.push('/Home');
+        } else {
+          alert(response.data.err);
+        }
+      })
+      .catch(err => {
+        alert(err);
+      });
+  };
 
   return (
     <div className="register-App">
@@ -24,6 +52,7 @@ const Login = () => {
           <div className="register-logo">BB</div>
           <TextField
             autoFocus
+            onChange={e => setUsername(e.target.value)}
             id="outlined-search"
             label="Username"
             type="search"
@@ -31,6 +60,7 @@ const Login = () => {
             placeholder="You could be superman"
           />
           <TextField
+            onChange={e => setEmail(e.target.value)}
             id="outlined-search"
             label="Email"
             type="search"
@@ -38,6 +68,7 @@ const Login = () => {
             placeholder="example@example.com"
           />
           <TextField
+            onChange={e => setPassword(e.target.value)}
             id="outlined-search"
             label="Password"
             type="search"
@@ -45,11 +76,15 @@ const Login = () => {
             placeholder="Please make it hard"
           />
           <div className="register-button-container">
-            <Button variant="contained" className="register-button">
+            <Button
+              onClick={handleRegister}
+              variant="contained"
+              className="register-button"
+            >
               Register
             </Button>
           </div>
-          <Link className="reg-log" to="/Login">
+          <Link className="reg-log" to="/">
             Login
           </Link>
         </div>
@@ -58,4 +93,6 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default connect(storeObject => {
+  return storeObject;
+})(Register);

@@ -20,7 +20,7 @@ const SexAndNudity = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState('Controlled');
   return (
-    <div>
+    <div className="add-book-suggestive-content-container">
       <div className="add-book-rate-age">
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel id="demo-simple-select-outlined-label">
@@ -33,23 +33,31 @@ const SexAndNudity = () => {
             label="Rate Severity"
           >
             <MenuItem value="">
-              <em>Rate the age group</em>
+              <em>Rate out of ten</em>
             </MenuItem>
-            <MenuItem value={10}>PG</MenuItem>
-            <MenuItem value={20}>PG-13</MenuItem>
-            <MenuItem value={30}>R</MenuItem>
+            <MenuItem value={1}>One</MenuItem>
+            <MenuItem value={2}>Two</MenuItem>
+            <MenuItem value={3}>Three</MenuItem>
+            <MenuItem value={4}>Four</MenuItem>
+            <MenuItem value={5}>Five</MenuItem>
+            <MenuItem value={6}>Six</MenuItem>
+            <MenuItem value={7}>Seven</MenuItem>
+            <MenuItem value={8}>Eight</MenuItem>
+            <MenuItem value={9}>Nine</MenuItem>
+            <MenuItem value={10}>Ten</MenuItem>
           </Select>
         </FormControl>
+        <br />
+        <TextField
+          label="Sex & Nudity"
+          id="outlined-size-small"
+          placeholder="Be descriptive"
+          variant="outlined"
+          size="small"
+          multiline
+          rows={5}
+        />
       </div>
-      <TextField
-        label="Sex & Nudity"
-        id="outlined-size-small"
-        placeholder="Be descriptive"
-        variant="outlined"
-        size="small"
-        multiline
-        rows={5}
-      />
     </div>
   );
 };

@@ -1,8 +1,24 @@
 import React, { Component } from 'react';
 import './TopNav.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-export default class TopNav extends Component {
+class TopNav extends Component {
+  handleLogout = () => {
+    axios.delete('/auth/user').then(response => {
+      if (response.data.success) {
+        this.props.dispatch({
+          type: 'LOGOUT'
+        });
+        this.props.history.push('/');
+      } else {
+        alert('something blew up');
+      }
+    });
+  };
+
   render() {
     return (
       <div className="TopNav-App">
@@ -18,11 +34,18 @@ export default class TopNav extends Component {
           </Link>
         </div>
         <div className="topnav-right-side">
-          <Link className="link topnav-link-on-right" to="/Login">
-            Login
+          <Link
+            className="link topnav-link-on-right"
+            onClick={this.handleLogout}
+          >
+            <small>Log Out</small>
           </Link>
         </div>
       </div>
     );
   }
 }
+
+export default connect(storeObject => {
+  return storeObject;
+})(withRouter(TopNav));
