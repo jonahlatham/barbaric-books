@@ -6,6 +6,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,9 +17,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ViolenceGore = () => {
+const ViolenceGore = props => {
   const classes = useStyles();
   const [value, setValue] = React.useState('Controlled');
+
+  const handleViolenceDescription = payload => {
+    props.dispatch({
+      type: 'SET_VIOLENCE_DESCRIPTION',
+      payload
+    });
+  };
+
+  const handleViolenceRate = payload => {
+    props.dispatch({
+      type: 'SET_VIOLENCE_RATING',
+      payload
+    });
+  };
+
   return (
     <div className="add-book-suggestive-content-container">
       <div className="add-book-rate-age">
@@ -29,8 +45,8 @@ const ViolenceGore = () => {
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            //   value={age}
-            //   onChange={handleChange}
+            onChange={e => handleViolenceRate(e.target.value)}
+            value={props.violenceRating}
             label="Rate Severity"
           >
             <MenuItem value="">
@@ -57,10 +73,14 @@ const ViolenceGore = () => {
           size="small"
           multiline
           rows={5}
+          onChange={e => handleViolenceDescription(e.target.value)}
+          value={props.violenceDescription}
         />
       </div>
     </div>
   );
 };
 
-export default ViolenceGore;
+export default connect(storeObject => {
+  return storeObject;
+})(ViolenceGore);

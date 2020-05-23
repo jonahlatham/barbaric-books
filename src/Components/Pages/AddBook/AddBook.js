@@ -29,16 +29,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// const getGenres = () => {
+
+// };
+
 function getSteps() {
-  return [
-    'Book Title and Summary',
-    'Sex & Nudity',
-    'Violence & Gore',
-    'Profanity',
-    'Alcohol, Drugs, & Smoking',
-    'Frightening & Intense'
-    // 'Submit'
-  ];
+  return axios
+    .get('/api/ratingName')
+    .then(response => {
+      return response.data.genre.map(e => {
+        return e.SuggestiveContent;
+      });
+    })
+    .catch(err => {
+      alert(err);
+    });
 }
 
 function getStepContent(stepIndex) {
@@ -78,7 +83,15 @@ const AddBook = props => {
   // };
 
   const handleSubmit = () => {
-    alert('All done!');
+    const body = {
+      BookName: props.bookTitle,
+      AuthorName: props.authorName,
+      BookSummary: props.summary
+    };
+    const body2 = {};
+
+    axios.post('/api/rating', body).then(response => {});
+    // alert('All done!');
     setActiveStep(0);
   };
 
@@ -117,7 +130,7 @@ const AddBook = props => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleNext}
+                  onClick={activeStep === steps.length - 1 ? '' : handleNext}
                 >
                   {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>

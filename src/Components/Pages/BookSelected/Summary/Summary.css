@@ -16,21 +16,15 @@
 }
 
 .summary-like-buttons-container {
+    text-align: left;
     position: absolute;
     bottom: 0;
     width: 100%;
 }
 
-.summary-button-disabled {
-    width: 52%;
-    min-width: 0%;
-    height: 35px;
-}
-
 .summary-button-like {
-    width: 16%;
+    width: 50%;
     min-width: 95px;
-    /* height: 35px; */
 }
 
 .MuiButtonGroup-root {

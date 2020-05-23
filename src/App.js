@@ -17,8 +17,8 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.setState({ isLoading: false });
     axios.get('/auth/user').then(response => {
+      this.setState({ isLoading: false });
       if (response.data.success) {
         this.props.dispatch({ type: 'SET_USER', payload: response.data.user });
       }
@@ -36,14 +36,18 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <Router>
-          {this.props.user ? <TopNav /> : ''}
-          <Switch>
-            {authRoutes}
-            <Route path="/Register" component={Register} />
-            <Route path="/" component={Login} />
-          </Switch>
-        </Router>
+        {this.state.isLoading ? (
+          ''
+        ) : (
+          <Router>
+            {this.props.user ? <TopNav /> : ''}
+            <Switch>
+              {authRoutes}
+              <Route path="/Register" component={Register} />
+              <Route path="/" component={Login} />
+            </Switch>
+          </Router>
+        )}
       </div>
     );
   }

@@ -6,6 +6,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,9 +17,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SexAndNudity = () => {
+const SexAndNudity = props => {
   const classes = useStyles();
   const [value, setValue] = React.useState('Controlled');
+
+  const handleSexDes = payload => {
+    props.dispatch({
+      type: 'SET_SEX_DESCRIPTION',
+      payload
+    });
+  };
+
+  const handleSexRates = payload => {
+    props.dispatch({
+      type: 'SET_SEX_RATING',
+      payload
+    });
+  };
+
   return (
     <div className="add-book-suggestive-content-container">
       <div className="add-book-rate-age">
@@ -31,6 +47,8 @@ const SexAndNudity = () => {
             id="demo-simple-select-outlined"
             //   value={age}
             label="Rate Severity"
+            onChange={e => handleSexRates(e.target.value)}
+            value={props.sexRating}
           >
             <MenuItem value="">
               <em>Rate out of ten</em>
@@ -56,10 +74,14 @@ const SexAndNudity = () => {
           size="small"
           multiline
           rows={5}
+          onChange={e => handleSexDes(e.target.value)}
+          value={props.sexDescription}
         />
       </div>
     </div>
   );
 };
 
-export default SexAndNudity;
+export default connect(storeObject => {
+  return storeObject;
+})(SexAndNudity);

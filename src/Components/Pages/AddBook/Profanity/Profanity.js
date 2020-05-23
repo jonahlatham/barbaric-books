@@ -6,6 +6,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,9 +17,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Profanity = () => {
+const Profanity = props => {
   const classes = useStyles();
   const [value, setValue] = React.useState('Controlled');
+
+  const handleProfanityDescription = payload => {
+    props.dispatch({
+      type: 'SET_PROFANITY_DESCRIPTION',
+      payload
+    });
+  };
+
+  const handleProfanityRate = payload => {
+    props.dispatch({
+      type: 'SET_PROFANITY_RATING',
+      payload
+    });
+  };
+
   return (
     <div className="add-book-suggestive-content-container">
       <div className="add-book-rate-age">
@@ -29,12 +45,12 @@ const Profanity = () => {
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            //   value={age}
-            //   onChange={handleChange}
+            onChange={e => handleProfanityRate(e.target.value)}
+            value={props.profanityRating}
             label="Rate Severity"
           >
             <MenuItem value="">
-            <em>Rate out of ten</em>
+              <em>Rate out of ten</em>
             </MenuItem>
             <MenuItem value={1}>One</MenuItem>
             <MenuItem value={2}>Two</MenuItem>
@@ -57,10 +73,14 @@ const Profanity = () => {
           size="small"
           multiline
           rows={5}
+          onChange={e => handleProfanityDescription(e.target.value)}
+          value={props.profanityDescription}
         />
       </div>
     </div>
   );
 };
 
-export default Profanity;
+export default connect(storeObject => {
+  return storeObject;
+})(Profanity);

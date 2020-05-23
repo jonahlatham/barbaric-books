@@ -6,6 +6,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,9 +17,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FrighteningIntense = () => {
+const FrighteningIntense = props => {
   const classes = useStyles();
   const [value, setValue] = React.useState('Controlled');
+
+  const handleFrightenDescription = payload => {
+    props.dispatch({
+      type: 'SET_FRIGHTENING_DESCRIPTION',
+      payload
+    });
+  };
+
+  const handleFrightenRating = payload => {
+    props.dispatch({
+      type: 'SET_FRIGHTENING_RATING',
+      payload
+    });
+  };
+
   return (
     <div className="add-book-suggestive-content-container">
       <div className="add-book-rate-age">
@@ -29,12 +45,12 @@ const FrighteningIntense = () => {
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            //   value={age}
-            //   onChange={handleChange}
+            onChange={e => handleFrightenRating(e.target.value)}
+            value={props.frighteningRating}
             label="Rate Severity"
           >
             <MenuItem value="">
-            <em>Rate out of ten</em>
+              <em>Rate out of ten</em>
             </MenuItem>
             <MenuItem value={1}>One</MenuItem>
             <MenuItem value={2}>Two</MenuItem>
@@ -57,10 +73,14 @@ const FrighteningIntense = () => {
           size="small"
           multiline
           rows={5}
+          onChange={e => handleFrightenDescription(e.target.value)}
+          value={props.frighteningDescription}
         />
       </div>
     </div>
   );
 };
 
-export default FrighteningIntense;
+export default connect(storeObject => {
+  return storeObject;
+})(FrighteningIntense);

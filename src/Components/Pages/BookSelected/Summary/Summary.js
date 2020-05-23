@@ -22,7 +22,11 @@ const Summary = () => {
     <div className="Summary-App">
       <div className="summary-app-text">All text</div>
       <div className="summary-like-buttons-container">
-        {/* <ButtonGroup variant="text" aria-label="text primary button group"> */}
+        {/* <ButtonGroup
+          variant="outlined"
+          color="default"
+          aria-label="text primary button group"
+        > */}
         <Button
           variant="outlined"
           className="summary-button-like"
@@ -36,14 +40,6 @@ const Summary = () => {
           color="secondary"
         >
           Dislike
-        </Button>
-        <Button
-          variant="outlined"
-          disabled
-          className="summary-button-disabled"
-        ></Button>
-        <Button className="summary-button-like" variant="outlined">
-          Incorrect
         </Button>
         {/* </ButtonGroup> */}
       </div>

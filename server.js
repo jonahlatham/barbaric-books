@@ -210,13 +210,13 @@ app.get('/api/rating', (req, res, next) => {
 //Make Rating
 app.post('/api/rating', (req, res, next) => {
   const db = app.get('db');
-  const { SuggestiveContent, Rating, Description /*, BookId */ } = req.body;
-  db.Rating.insert({
-    SuggestiveContent,
-    Rating,
-    Description
-    // UserId: req.session.user.id,
-    // BookId: ????,
+  const date = new Date();
+  const { BookName, AuthorName, BookSummary } = req.body;
+  db.Book.insert({
+    BookName,
+    AuthorName,
+    BookSummary,
+    UserId: req.session.user.id
   })
     .then(item => {
       res.send({ success: true, item });
@@ -226,35 +226,43 @@ app.post('/api/rating', (req, res, next) => {
     });
 });
 //////////////////////////////////////////////////////////////////
-//Get Book
-app.get('/api/book', (req, res, next) => {
+// Get Genres
+app.get('/api/ratingName', (req, res, next) => {
   const db = app.get('db');
-  db.Book.find()
-    .then(book => {
-      res.send({ Book: book });
-    })
-    .catch(err => {
-      res.send({ success: false, err });
-    });
+  db.RatingGenre.find().then(genre => {
+    res.send({ genre });
+  });
 });
+//////////////////////////////////////////////////////////////////
+// //Get Book
+// app.get('/api/book', (req, res, next) => {
+//   const db = app.get('db');
+//   db.Book.find()
+//     .then(book => {
+//       res.send({ Book: book });
+//     })
+//     .catch(err => {
+//       res.send({ success: false, err });
+//     });
+// });
 
-//Make Book
-app.post('/api/book', (req, res, next) => {
-  const db = app.get('db');
-  const { BookName, AuthorName, BookSummary /*, BookId */ } = req.body;
-  db.Book.insert({
-    BookName,
-    AuthorName,
-    BookSummary
-    // UserId: req.session.user.id,
-  })
-    .then(item => {
-      res.send({ success: true, item });
-    })
-    .catch(err => {
-      res.send({ success: false, err });
-    });
-});
+// //Make Book
+// app.post('/api/book', (req, res, next) => {
+//   const db = app.get('db');
+//   const { BookName, AuthorName, BookSummary /*, BookId */ } = req.body;
+//   db.Book.insert({
+//     BookName,
+//     AuthorName,
+//     BookSummary
+// UserId: req.session.user.id,
+//   })
+//     .then(item => {
+//       res.send({ success: true, item });
+//     })
+//     .catch(err => {
+//       res.send({ success: false, err });
+//     });
+// });
 //////////////////////////////////////////////////////////////////
 
 // app.get('/*', (req, res) => {

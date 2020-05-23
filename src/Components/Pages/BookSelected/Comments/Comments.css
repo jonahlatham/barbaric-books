@@ -72,12 +72,17 @@
     padding-top: 5px;
 }
 
+.all-comment-container {
+    margin: auto;
+    width: 71%
+}
+
 .comments-comments {
     text-align: left;
     margin: auto;
     margin-bottom: 20px;
     background: #E0E0E0;
-    width: 71%;
+    width: 100%;
     min-height: 80px;
     padding: 5px 13px 30px 20px;
     border-radius: 10px;
@@ -87,4 +92,18 @@
 .comments-section {
     max-height: 500px;
     overflow-y: scroll;
+}
+
+.comments-replys-container {
+    text-align: left;
+    margin: auto;
+    margin-top: -17px;
+    margin-right: -30px;
+    margin-bottom: 20px;
+    width: 90%;
+    background: #E0E0E0;
+    min-height: 60px;
+    padding: 1px 13px 30px 20px;
+    border-radius: 10px;
+    position: relative;
 }

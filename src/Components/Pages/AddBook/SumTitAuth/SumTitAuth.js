@@ -17,6 +17,28 @@ const SumTitAuth = props => {
   const [bookTitle, setBookTitle] = React.useState('');
   const [author, setAuthor] = React.useState('');
   const [summary, setSummary] = React.useState('');
+
+  const handleTitle = payload => {
+    props.dispatch({
+      type: 'SET_BOOK_TITLE',
+      payload
+    });
+  };
+
+  const handleAuthor = payload => {
+    props.dispatch({
+      type: 'SET_AUTHOR_NAME',
+      payload
+    });
+  };
+
+  const handleSummary = payload => {
+    props.dispatch({
+      type: 'SET_SUMMARY',
+      payload
+    });
+  };
+
   return (
     <div className="add-book-SumTitAuth">
       <div className="add-book-title-div">
@@ -25,14 +47,16 @@ const SumTitAuth = props => {
           label="Book Title"
           placeholder="Check Spelling"
           type="search"
-          onChange={e => setBookTitle(e.target.value)}
+          onChange={e => handleTitle(e.target.value)}
+          value={props.bookTitle}
         />
         <TextField
           id="standard-search"
           label="Author"
           placeholder="Check Spelling"
           type="search"
-          onChange={e => setAuthor(e.target.value)}
+          onChange={e => handleAuthor(e.target.value)}
+          value={props.authorName}
         />
       </div>
       <TextField
@@ -42,7 +66,8 @@ const SumTitAuth = props => {
         multiline
         rows={10}
         variant="outlined"
-        onChange={e => setSummary(e.target.value)}
+        onChange={e => handleSummary(e.target.value)}
+          value={props.summary}
       />
     </div>
   );
