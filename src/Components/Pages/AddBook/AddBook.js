@@ -6,14 +6,10 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import SexNudes from './SexAndNudity/SexAndNudity';
-import ViolenceGore from './ViolenceAndGore/ViolenceAndGore';
-import Profanity from './Profanity/Profanity';
-import AlcoholDrugSmoking from './AlcoholDrugSmoking/AlcoholDrugSmoking';
-import FrighteningIntense from './FrighteningIntense/FrighteningIntense';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import Genre from './Genre/Genre';
 import SumTitAuth from './SumTitAuth/SumTitAuth';
 
 const useStyles = makeStyles(theme => ({
@@ -29,46 +25,58 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// const getGenres = () => {
-
-// };
-
 function getSteps() {
-  return axios
-    .get('/api/ratingName')
-    .then(response => {
-      return response.data.genre.map(e => {
-        return e.SuggestiveContent;
-      });
-    })
-    .catch(err => {
-      alert(err);
-    });
-}
-
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return <SumTitAuth />;
-    case 1:
-      return <SexNudes />;
-    case 2:
-      return <ViolenceGore />;
-    case 3:
-      return <Profanity />;
-    case 4:
-      return <AlcoholDrugSmoking />;
-    case 5:
-      return <FrighteningIntense />;
-    default:
-      return '';
-  }
+  return [1, 2, 3, 4, 5];
 }
 
 const AddBook = props => {
+  function getStepContent(stepIndex) {
+    switch (stepIndex) {
+      case 0:
+        return <SumTitAuth />;
+      case 1:
+        return <Genre />;
+      case 2:
+        return <Genre />;
+      case 3:
+        return <Genre />;
+      case 4:
+        return <Genre />;
+      case 5:
+        return <Genre />;
+      default:
+        return '';
+    }
+  }
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
+  const [genres, setGenres] = React.useState([]);
+  const [steps, setSteps] = React.useState(['Book Title & Summary']);
+
+  React.useEffect(() => {
+    const getGenres = () => {
+      return axios
+        .get('/api/ratingName')
+        .then(response => {
+          setGenres(
+            response.data.genre.map(e => {
+              return e.SuggestiveContent;
+            })
+          );
+          setSteps([
+            ...steps,
+            ...response.data.genre.map(e => {
+              return e.SuggestiveContent;
+            }),
+            'Submit'
+          ]);
+        })
+        .catch(err => {
+          alert(err);
+        });
+    };
+    getGenres();
+  }, []);
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);

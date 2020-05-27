@@ -3,6 +3,7 @@ import './AllBooks.css';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +28,36 @@ const AllBooks = () => {
     'Percy Jackson',
     'The Hunger Games'
   ];
+  // const [activeStep, setActiveStep] = React.useState(0);
+  const [books, setBooks] = React.useState([]);
+
+  React.useEffect(() => {
+    const displayBooks = () => {
+      return axios
+        .get('/api/bookDisplayed')
+        .then(response => {
+          setBooks(
+            response.data.Book.map(e => {
+              return (
+                <Link
+                  to={`/BookSelected/${e.Id}`}
+                  className="all-books-displayed"
+                >
+                  <div className="all-books-displayed-name">{e.BookName}</div>
+                  <div className="all-books-displayed-author">
+                    {e.AuthorName}
+                  </div>
+                </Link>
+              );
+            })
+          );
+        })
+        .catch(err => {
+          alert(err);
+        });
+    };
+    displayBooks();
+  }, []);
 
   return (
     <div className="AllBooks-App">
@@ -43,9 +74,7 @@ const AllBooks = () => {
         </div>
       </form>
 
-      <Link className="link" to="/BookSelected">
-        Look at book
-      </Link>
+      <div className="add-books-displayed-container">{books}</div>
     </div>
   );
 };

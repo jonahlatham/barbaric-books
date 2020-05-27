@@ -1,3 +1,49 @@
 .AllBooks-App {
     text-align: center;
 }
+
+.all-books-displayed {
+    margin: 0px 10px;
+    width: 250px;
+    min-height: 100px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    padding: 10px;
+    position: relative;
+    text-decoration: none;
+    color: black;
+    margin-top: 20px;
+}
+
+.all-books-displayed:hover {
+    color: #757575;
+}
+
+.all-books-displayed:active {
+    color: #E0E0E0;
+}
+
+.all-books-displayed-name {
+    margin-bottom: 15px;
+    padding: 0px 10px;
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.all-books-displayed-author {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 10px;
+    width: 90%;
+    text-align: center;
+    font-size: 15px;
+}
+
+.add-books-displayed-container {
+    margin: auto;
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

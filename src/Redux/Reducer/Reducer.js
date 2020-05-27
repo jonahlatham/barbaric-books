@@ -38,60 +38,6 @@ const summary = (state = '', action) => {
   }
 };
 
-const sexRating = (state = '', action) => {
-  switch (action.type) {
-    case 'SET_SEX_RATING':
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
-const sexDescription = (state = '', action) => {
-  switch (action.type) {
-    case 'SET_SEX_DESCRIPTION':
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
-const violenceRating = (state = '', action) => {
-  switch (action.type) {
-    case 'SET_VIOLENCE_RATING':
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
-const violenceDescription = (state = '', action) => {
-  switch (action.type) {
-    case 'SET_VIOLENCE_DESCRIPTION':
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
-const profanityRating = (state = '', action) => {
-  switch (action.type) {
-    case 'SET_PROFANITY_RATING':
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
-const profanityDescription = (state = '', action) => {
-  switch (action.type) {
-    case 'SET_PROFANITY_DESCRIPTION':
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
 const alcoholRating = (state = '', action) => {
   switch (action.type) {
     case 'SET_ALCOHOL_RATING':
@@ -110,37 +56,11 @@ const alcoholDescription = (state = '', action) => {
   }
 };
 
-const frighteningRating = (state = '', action) => {
-  switch (action.type) {
-    case 'SET_FRIGHTENING_RATING':
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
-const frighteningDescription = (state = '', action) => {
-  switch (action.type) {
-    case 'SET_FRIGHTENING_DESCRIPTION':
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
 export default combineReducers({
   user,
   bookTitle,
   authorName,
   summary,
-  sexRating,
-  sexDescription,
-  violenceRating,
-  violenceDescription,
-  profanityRating,
-  profanityDescription,
   alcoholRating,
-  alcoholDescription,
-  frighteningRating,
-  frighteningDescription
+  alcoholDescription
 });

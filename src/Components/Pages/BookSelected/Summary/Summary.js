@@ -3,6 +3,8 @@ import './Summary.css';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,18 +17,35 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Summary = () => {
+const Summary = props => {
   const classes = useStyles();
+
+  const [summary, setSummary] = React.useState([]);
+
+  React.useEffect(() => {
+    const displaySummary = () => {
+      return axios
+        .get('/api/bookDisplayed')
+        .then(response => {
+          setSummary(
+            response.data.Book.map(e => {
+              if (e.Id === Number(props.match.params.id)) {
+                return <div className="summary-app-text">{e.BookSummary}</div>;
+              }
+            })
+          );
+        })
+        .catch(err => {
+          alert(err);
+        });
+    };
+    displaySummary();
+  }, []);
 
   return (
     <div className="Summary-App">
-      <div className="summary-app-text">All text</div>
-      <div className="summary-like-buttons-container">
-        {/* <ButtonGroup
-          variant="outlined"
-          color="default"
-          aria-label="text primary button group"
-        > */}
+      {summary}
+      {/* <div className="summary-like-buttons-container">
         <Button
           variant="outlined"
           className="summary-button-like"
@@ -41,8 +60,7 @@ const Summary = () => {
         >
           Dislike
         </Button>
-        {/* </ButtonGroup> */}
-      </div>
+      </div> */}
     </div>
   );
 };

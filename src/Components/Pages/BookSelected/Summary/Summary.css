@@ -2,30 +2,32 @@
     margin: auto;
     margin-top: 20px;
     width: 75%;
-    min-height: 150px;
+    min-height: 100px;
     border-style: solid;
     border-width: 1px;
     border-color: #C4C4C4;
     border-radius: 5px;
     position: relative;
-    padding-bottom: 25px;
+    padding-bottom: 20px;
 }
 
 .summary-app-text {
     padding: 20px;
 }
 
-.summary-like-buttons-container {
+
+/* .summary-like-buttons-container {
     text-align: left;
     position: absolute;
     bottom: 0;
     width: 100%;
-}
+} */
 
-.summary-button-like {
+
+/* .summary-button-like {
     width: 50%;
     min-width: 95px;
-}
+} */
 
 .MuiButtonGroup-root {
     width: 100%;

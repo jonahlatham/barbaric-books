@@ -234,17 +234,17 @@ app.get('/api/ratingName', (req, res, next) => {
   });
 });
 //////////////////////////////////////////////////////////////////
-// //Get Book
-// app.get('/api/book', (req, res, next) => {
-//   const db = app.get('db');
-//   db.Book.find()
-//     .then(book => {
-//       res.send({ Book: book });
-//     })
-//     .catch(err => {
-//       res.send({ success: false, err });
-//     });
-// });
+//Get Book
+app.get('/api/bookDisplayed', (req, res, next) => {
+  const db = app.get('db');
+  db.Book.find()
+    .then(book => {
+      res.send({ Book: book });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
 
 // //Make Book
 // app.post('/api/book', (req, res, next) => {
