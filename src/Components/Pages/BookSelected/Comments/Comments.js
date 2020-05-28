@@ -16,6 +16,8 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import CommentsWritten from './CommentsWritten/CommentsWritten';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import ReplyIcon from '@material-ui/icons/Reply';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,19 +28,105 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Comments = () => {
+const Comments = props => {
   const classes = useStyles();
   const [value, setValue] = React.useState('Controlled');
-  const [comments, setComments] = React.useState('Controlled');
+  const [comment, setComment] = React.useState('');
+  const [displayedComment, setDisplayedComment] = React.useState('');
 
-  const handleChange = event => {
-    setValue(event.target.value);
+  React.useEffect(() => {
+    const displayRating = () => {
+      return axios
+        .get('/api/comments')
+        .then(response => {
+          console.log(response.data);
+          setDisplayedComment(
+            response.data.Comments.map(e => {
+              if (e.BookId === Number(props.match.params.id)) {
+                return (
+                  <div className="comments-comments">
+                    <p>
+                      <strong>name: </strong>
+                      <small>{e.TimePosted}</small>
+                    </p>
+                    <p>{e.Comment}</p>
+                    <div className="comments-comment-button-container">
+                      <ButtonGroup
+                        variant="text"
+                        aria-label="text primary button group"
+                      >
+                        <small className="comments-comment-button-text">
+                          900
+                        </small>
+                        <Button className="comments-comment-button">
+                          <ImportExportIcon style={{ fontSize: 15 }} />
+                        </Button>
+                        <Button className="comments-comment-button">
+                          <ReplyIcon style={{ fontSize: 15 }} />
+                        </Button>
+                        <Button
+                          color="primary"
+                          className="comments-comment-button"
+                        >
+                          <ThumbUpAltIcon style={{ fontSize: 15 }} />
+                        </Button>
+                        <Button
+                          color="secondary"
+                          className="comments-comment-button"
+                        >
+                          <ThumbDownAltIcon style={{ fontSize: 15 }} />
+                        </Button>
+                      </ButtonGroup>
+                    </div>
+                  </div>
+                );
+              }
+            })
+          );
+        })
+        .catch(err => {
+          alert(err);
+        });
+    };
+    displayRating();
+  }, []);
+
+  const handleComment = payload => {
+    props.dispatch({
+      type: 'ADD_COMMENT',
+      payload
+    });
+  };
+
+  const handleAddComment = payload => {
+    const body = {
+      Comment: props.comments,
+      BookId: Number(props.match.params.id)
+    };
+    if (props.comments !== '') {
+      axios
+        .post('/api/comment', body)
+        .then(response => {
+          if (response.data.success) {
+            debugger
+            props.dispatch({
+              type: 'SUBMIT'
+            });
+          } else {
+            alert(response.data.err);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
+    }
   };
 
   return (
     <div className="Comments-App">
       <div className="comments-section">
-        <CommentsWritten />
+        {/* <CommentsWritten /> */}
+        <div className="all-comment-container">{displayedComment}</div>
       </div>
       <div className="comments-add-comment">
         <div className="comments-add-icon-container">
@@ -52,10 +140,15 @@ const Comments = () => {
             label="Add a comment"
             placeholder="Try not to be too mean..."
             multiline
+            onChange={e => handleComment(e.target.value)}
+            value={props.comment}
           />
         </div>
         <div style={{ marginTop: '-10px' }}>
-          <IconButton className="comments-add-button">
+          <IconButton
+            className="comments-add-button"
+            onClick={handleAddComment}
+          >
             <AddCircleIcon style={{ fontSize: 50, color: 'black' }} />
           </IconButton>
         </div>

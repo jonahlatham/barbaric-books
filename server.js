@@ -136,7 +136,7 @@ app.post('/api/comment', (req, res, next) => {
   const { Comment, BookId } = req.body;
   db.Comments.insert({
     Comment,
-    UserId: req.session.user.id,
+    UserId: req.session.User.Id,
     TimePosted: date,
     BookId,
     IsActive: true

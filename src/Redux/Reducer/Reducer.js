@@ -11,10 +11,12 @@ const user = (state = null, action) => {
   }
 };
 
-const bookFilter = (state = '', action) => {
+const comments = (state = '', action) => {
   switch (action.type) {
-    case 'FILTER_BOOK':
+    case 'ADD_COMMENT':
       return action.payload;
+    case 'SUBMIT':
+      return '';
     default:
       return state;
   }
@@ -106,5 +108,5 @@ export default combineReducers({
   summary,
   reviews,
   setBook,
-  bookFilter
+  comments
 });

@@ -92,6 +92,7 @@
 .comments-section {
     max-height: 500px;
     overflow-y: scroll;
+    margin-bottom: 20px;
 }
 
 .comments-replys-container {
