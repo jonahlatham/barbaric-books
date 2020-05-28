@@ -1,41 +1,50 @@
 import React from 'react';
 import './Rating.css';
+import axios from 'axios';
 
-const Rating = () => {
-  return (
-    <div className="Rating-App">
-      <div className="rating-summary-container">
-        <strong>
-          Sex & Nudity: <i>PG</i>
-        </strong>
-        <p>description</p>
-      </div>
-      <div className="rating-summary-container">
-        <strong>
-          Violence & Gore: <i>PG-13</i>
-        </strong>
-        <p>description</p>
-      </div>
-      <div className="rating-summary-container">
-        <strong>
-          Profanity: <i>R</i>
-        </strong>
-        <p>description</p>
-      </div>
-      <div className="rating-summary-container">
-        <strong>
-          Alcohol/Drugs/Smoking: <i>PG-13</i>
-        </strong>
-        <p>description</p>
-      </div>
-      <div className="rating-summary-container">
-        <strong>
-          Frightening & Intense Scenes: <i>PG-13</i>
-        </strong>
-        <p>description</p>
-      </div>
-    </div>
-  );
+const Rating = props => {
+  const [rating, setRating] = React.useState([]);
+  let ratingName;
+
+  React.useEffect(() => {
+    const displayRating = () => {
+      return axios
+        .get('/api/ratingName')
+        .then(response => {
+          ratingName = response.data.genre.reduce((r, e) => {
+            r.push(e.SuggestiveContent);
+            return r;
+          }, []);
+          return axios.get('/api/bookRating');
+        })
+        .then(response => {
+          setRating(
+            response.data.Rating.map((e, i) => {
+              if (Number(props.match.params.id) === e.BookId) {
+                return (
+                  <div key={e.Id}>
+                    <div className="rating-summary-container">
+                      <strong>
+                        {ratingName[e.GenreId - 1]} <i>{e.GenreRating}/10</i>
+                      </strong>
+                      <div className="rating-summary-description">
+                        {e.Description}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })
+          );
+        })
+        .catch(err => {
+          alert(err);
+        });
+    };
+    displayRating();
+  }, []);
+
+  return <div className="Rating-App">{rating}</div>;
 };
 
 export default Rating;

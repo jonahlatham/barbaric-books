@@ -25,28 +25,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function getSteps() {
-  return [1, 2, 3, 4, 5];
-}
-
 const AddBook = props => {
   function getStepContent(stepIndex) {
-    switch (stepIndex) {
-      case 0:
-        return <SumTitAuth />;
-      case 1:
-        return <Genre />;
-      case 2:
-        return <Genre />;
-      case 3:
-        return <Genre />;
-      case 4:
-        return <Genre />;
-      case 5:
-        return <Genre />;
-      default:
-        return '';
-    }
+    const crap = genres.filter((e, i) => {
+      return stepIndex - 1 === i;
+    })[0];
+    console.log(crap);
+    return stepIndex === 0 ? (
+      <SumTitAuth />
+    ) : stepIndex === genres.length + 1 ? (
+      ''
+    ) : (
+      <Genre genre={crap} />
+    );
   }
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -60,7 +51,7 @@ const AddBook = props => {
         .then(response => {
           setGenres(
             response.data.genre.map(e => {
-              return e.SuggestiveContent;
+              return e;
             })
           );
           setSteps([
@@ -94,12 +85,15 @@ const AddBook = props => {
     const body = {
       BookName: props.bookTitle,
       AuthorName: props.authorName,
-      BookSummary: props.summary
+      BookSummary: props.summary,
+      Rating: props.reviews
     };
-    const body2 = {};
 
-    axios.post('/api/rating', body).then(response => {});
-    // alert('All done!');
+    axios.post('/api/book', body).then(response => {
+      props.dispatch({ type: 'RESET' });
+      props.history.push('/AllBooks');
+    });
+
     setActiveStep(0);
   };
 
@@ -138,7 +132,9 @@ const AddBook = props => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={activeStep === steps.length - 1 ? '' : handleNext}
+                  onClick={
+                    activeStep === steps.length - 1 ? handleSubmit : handleNext
+                  }
                 >
                   {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>

@@ -15,6 +15,7 @@ import ImportExportIcon from '@material-ui/icons/ImportExport';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import CommentsWritten from './CommentsWritten/CommentsWritten';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles(theme => ({
 const Comments = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState('Controlled');
+  const [comments, setComments] = React.useState('Controlled');
 
   const handleChange = event => {
     setValue(event.target.value);
@@ -35,7 +37,7 @@ const Comments = () => {
 
   return (
     <div className="Comments-App">
-      <div className='comments-section'>
+      <div className="comments-section">
         <CommentsWritten />
       </div>
       <div className="comments-add-comment">
@@ -61,4 +63,6 @@ const Comments = () => {
     </div>
   );
 };
-export default Comments;
+export default connect(storeObject => {
+  return storeObject;
+})(Comments);

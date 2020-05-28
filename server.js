@@ -133,12 +133,12 @@ app.post('/auth/login', (req, res, next) => {
 app.post('/api/comment', (req, res, next) => {
   const db = app.get('db');
   const date = new Date();
-  const { Comment /*, BookId */ } = req.body;
+  const { Comment, BookId } = req.body;
   db.Comments.insert({
     Comment,
-    // UserId: req.session.user.id,
+    UserId: req.session.user.id,
     TimePosted: date,
-    // BookId: ????,
+    BookId,
     IsActive: true
   })
     .then(item => {
@@ -230,11 +230,11 @@ app.post('/api/rating', (req, res, next) => {
 app.get('/api/ratingName', (req, res, next) => {
   const db = app.get('db');
   db.RatingGenre.find().then(genre => {
-    res.send({ genre });
+    res.send({ genre, success: true });
   });
 });
 //////////////////////////////////////////////////////////////////
-//Get Book
+//Get Book Thumbnails
 app.get('/api/bookDisplayed', (req, res, next) => {
   const db = app.get('db');
   db.Book.find()
@@ -246,23 +246,50 @@ app.get('/api/bookDisplayed', (req, res, next) => {
     });
 });
 
-// //Make Book
-// app.post('/api/book', (req, res, next) => {
-//   const db = app.get('db');
-//   const { BookName, AuthorName, BookSummary /*, BookId */ } = req.body;
-//   db.Book.insert({
-//     BookName,
-//     AuthorName,
-//     BookSummary
-// UserId: req.session.user.id,
-//   })
-//     .then(item => {
-//       res.send({ success: true, item });
-//     })
-//     .catch(err => {
-//       res.send({ success: false, err });
-//     });
-// });
+//Get Rating
+app.get('/api/bookRating', (req, res, next) => {
+  const db = app.get('db');
+  db.Rating.find()
+    .then(rating => {
+      res.send({ Rating: rating });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
+
+//Make Book
+app.post('/api/book', (req, res, next) => {
+  const db = app.get('db');
+  const date = new Date();
+  const { BookName, AuthorName, BookSummary, Rating } = req.body;
+  db.Book.insert({
+    BookName,
+    AuthorName,
+    BookSummary,
+    DateAdded: date,
+    UserId: req.session.User.Id
+  })
+    .then(book => {
+      return Promise.all(
+        Rating.map(e => {
+          return db.Rating.insert({
+            GenreId: e.id,
+            GenreRating: e.genreRating,
+            Description: e.description,
+            BookId: book.Id,
+            DateAdded: date
+          });
+        })
+      );
+    })
+    .then(response => {
+      res.send({ success: true });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
 //////////////////////////////////////////////////////////////////
 
 // app.get('/*', (req, res) => {

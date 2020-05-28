@@ -51,7 +51,7 @@ function Login(props) {
           <div className="login-logo">BB</div>
           <TextField
             autoFocus
-            id="outlined-search"
+            id="outlined-email"
             label="Email or Username"
             type="search"
             variant="outlined"
@@ -59,7 +59,7 @@ function Login(props) {
             placeholder="Did you make it unique?"
           />
           <TextField
-            id="outlined-search"
+            id="outlined-password"
             label="Password"
             type="search"
             variant="outlined"

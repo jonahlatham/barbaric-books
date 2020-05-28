@@ -21,17 +21,17 @@ const AlcoholDrugSmoking = props => {
   const classes = useStyles();
   const [value, setValue] = React.useState('Controlled');
 
-  const handleAlcoholDescription = payload => {
+  const handleUpdateGenreDescription = payload => {
     props.dispatch({
-      type: 'SET_ALCOHOL_DESCRIPTION',
-      payload
+      type: 'UPDATE_GENRE_DESCRIPTION',
+      payload: { id: props.genre.Id, description: payload }
     });
   };
 
-  const handleAlcoholRating = payload => {
+  const handleUpdateGenreRating = payload => {
     props.dispatch({
-      type: 'SET_ALCOHOL_RATING',
-      payload
+      type: 'UPDATE_GENRE_RATING',
+      payload: { id: props.genre.Id, genreRating: payload }
     });
   };
 
@@ -40,18 +40,24 @@ const AlcoholDrugSmoking = props => {
       <div className="add-book-rate-age">
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel id="demo-simple-select-outlined-label">
-            Alcohol/Drugs/Smoking
+            {props.genre.SuggestiveContent}
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            onChange={e => handleAlcoholRating(e.target.value)}
-            value={props.alcoholRating}
+            onChange={e => handleUpdateGenreRating(e.target.value)}
+            value={props.reviews.reduce((r, e) => {
+              if (e.id === props.genre.Id) {
+                r = e.genreRating;
+              }
+              return r;
+            }, '')}
             label="Rate Severity"
           >
             <MenuItem value="">
               <em>Rate out of ten</em>
             </MenuItem>
+            <MenuItem value={0}>Zero</MenuItem>
             <MenuItem value={1}>One</MenuItem>
             <MenuItem value={2}>Two</MenuItem>
             <MenuItem value={3}>Three</MenuItem>
@@ -66,15 +72,20 @@ const AlcoholDrugSmoking = props => {
         </FormControl>
         <br />
         <TextField
-          label="Alcohol/Drugs/Smoking"
+          label={props.genre.SuggestiveContent}
           id="outlined-size-small"
           placeholder="Be descriptive"
           variant="outlined"
           size="small"
           multiline
           rows={5}
-          onChange={e => handleAlcoholDescription(e.target.value)}
-          value={props.alcoholDescription}
+          onChange={e => handleUpdateGenreDescription(e.target.value)}
+          value={props.reviews.reduce((r, e) => {
+            if (e.id === props.genre.Id) {
+              r = e.description;
+            }
+            return r;
+          }, '')}
         />
       </div>
     </div>

@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,12 +15,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AllBooks = () => {
+const AllBooks = props => {
   const classes = useStyles();
   const bookTitles = [
     'To Kill a Mockingbird',
     'Moby Dick',
     'Great Expectations',
+    'Lord of the Rings',
     'The Great Gatsby',
     'Pride and Prejudice',
     'Wuthering Heights',
@@ -30,6 +32,7 @@ const AllBooks = () => {
   ];
   // const [activeStep, setActiveStep] = React.useState(0);
   const [books, setBooks] = React.useState([]);
+  const [filterBooks, setFilterBooks] = React.useState('');
 
   React.useEffect(() => {
     const displayBooks = () => {
@@ -38,6 +41,7 @@ const AllBooks = () => {
         .then(response => {
           setBooks(
             response.data.Book.map(e => {
+              // if (books.includes(filterBooks)) {
               return (
                 <Link
                   to={`/BookSelected/${e.Id}`}
@@ -49,6 +53,7 @@ const AllBooks = () => {
                   </div>
                 </Link>
               );
+              // }
             })
           );
         })
@@ -65,6 +70,7 @@ const AllBooks = () => {
         <div>
           <TextField
             id="standard-search"
+            onChange={e => setFilterBooks(e.target.value)}
             label="Search for a book"
             placeholder={
               bookTitles[Math.floor(Math.random() * bookTitles.length)]
@@ -73,10 +79,11 @@ const AllBooks = () => {
           />
         </div>
       </form>
-
       <div className="add-books-displayed-container">{books}</div>
     </div>
   );
 };
 
-export default AllBooks;
+export default connect(storeObject => {
+  return storeObject;
+})(AllBooks);
