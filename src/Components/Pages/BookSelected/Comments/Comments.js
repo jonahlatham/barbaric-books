@@ -33,21 +33,22 @@ const Comments = props => {
   const [value, setValue] = React.useState('Controlled');
   const [comment, setComment] = React.useState('');
   const [displayedComment, setDisplayedComment] = React.useState('');
-
+  const date = new Date().getTime();
+  console.log(date);
   React.useEffect(() => {
     const displayRating = () => {
       return axios
         .get('/api/comments')
         .then(response => {
-          console.log(response.data);
           setDisplayedComment(
             response.data.Comments.map(e => {
+              // debugger
               if (e.BookId === Number(props.match.params.id)) {
                 return (
                   <div className="comments-comments">
                     <p>
                       <strong>name: </strong>
-                      <small>{e.TimePosted}</small>
+                      <small>{Math.abs(date - e.TimePosted)}</small>
                     </p>
                     <p>{e.Comment}</p>
                     <div className="comments-comment-button-container">
@@ -103,12 +104,12 @@ const Comments = props => {
       Comment: props.comments,
       BookId: Number(props.match.params.id)
     };
+    setComment('');
     if (props.comments !== '') {
       axios
         .post('/api/comment', body)
         .then(response => {
           if (response.data.success) {
-            debugger
             props.dispatch({
               type: 'SUBMIT'
             });

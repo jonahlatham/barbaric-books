@@ -36,7 +36,12 @@
 .comments-add-comment-input {
     width: 100%;
     overflow-y: scroll;
+    background: #E0E0E0;
     max-height: 50px;
+}
+
+.comments-add-comment-input::-webkit-scrollbar {
+    background: #E0E0E0;
 }
 
 .comments-add-comment-input:focus {
@@ -90,9 +95,14 @@
 }
 
 .comments-section {
-    max-height: 500px;
     overflow-y: scroll;
+    max-height: 500px;
     margin-bottom: 20px;
+}
+
+.comments-section::-webkit-scrollbar {
+    background: #FFFFFF;
+    /* scrollbar-color: dark; */
 }
 
 .comments-replys-container {

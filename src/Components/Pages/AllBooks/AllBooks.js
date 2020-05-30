@@ -71,6 +71,7 @@ const AllBooks = props => {
           <TextField
             id="standard-search"
             onChange={e => setFilterBooks(e.target.value)}
+            value={props.filterBooks}
             label="Search for a book"
             placeholder={
               bookTitles[Math.floor(Math.random() * bookTitles.length)]
