@@ -1,23 +1,14 @@
 import React from 'react';
 import './Comments.css';
-import { placeholder } from '@babel/types';
 import CameraIcon from '@material-ui/icons/Camera';
-import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ImportExportIcon from '@material-ui/icons/ImportExport';
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import CommentsWritten from './CommentsWritten/CommentsWritten';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import ReplyIcon from '@material-ui/icons/Reply';
+import { withRouter } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,93 +24,42 @@ const Comments = props => {
   const [value, setValue] = React.useState('Controlled');
   const [comment, setComment] = React.useState('');
   const [displayedComment, setDisplayedComment] = React.useState('');
-  const date = new Date().getTime();
-  console.log(date);
+
+  const getComments = async () => {
+    const response = await axios.get('/api/comments');
+    setDisplayedComment(
+      response.data.Comments.map(e => {
+        if (e.BookId === Number(props.match.params.id)) {
+          return <CommentsWritten key={e.Id} data={e} />;
+        }
+      })
+    );
+  };
+
   React.useEffect(() => {
-    const displayRating = () => {
-      return axios
-        .get('/api/comments')
-        .then(response => {
-          setDisplayedComment(
-            response.data.Comments.map(e => {
-              // debugger
-              if (e.BookId === Number(props.match.params.id)) {
-                return (
-                  <div className="comments-comments">
-                    <p>
-                      <strong>name: </strong>
-                      <small>{Math.abs(date - e.TimePosted)}</small>
-                    </p>
-                    <p>{e.Comment}</p>
-                    <div className="comments-comment-button-container">
-                      <ButtonGroup
-                        variant="text"
-                        aria-label="text primary button group"
-                      >
-                        <small className="comments-comment-button-text">
-                          900
-                        </small>
-                        <Button className="comments-comment-button">
-                          <ImportExportIcon style={{ fontSize: 15 }} />
-                        </Button>
-                        <Button className="comments-comment-button">
-                          <ReplyIcon style={{ fontSize: 15 }} />
-                        </Button>
-                        <Button
-                          color="primary"
-                          className="comments-comment-button"
-                        >
-                          <ThumbUpAltIcon style={{ fontSize: 15 }} />
-                        </Button>
-                        <Button
-                          color="secondary"
-                          className="comments-comment-button"
-                        >
-                          <ThumbDownAltIcon style={{ fontSize: 15 }} />
-                        </Button>
-                      </ButtonGroup>
-                    </div>
-                  </div>
-                );
-              }
-            })
-          );
-        })
-        .catch(err => {
-          alert(err);
-        });
+    const displayRating = async () => {
+      await getComments();
     };
     displayRating();
   }, []);
 
   const handleComment = payload => {
-    props.dispatch({
-      type: 'ADD_COMMENT',
-      payload
-    });
+    setComment(payload);
   };
 
-  const handleAddComment = payload => {
+  const handleAddComment = async payload => {
     const body = {
-      Comment: props.comments,
+      Comment: comment,
       BookId: Number(props.match.params.id)
     };
-    setComment('');
-    if (props.comments !== '') {
-      axios
-        .post('/api/comment', body)
-        .then(response => {
-          if (response.data.success) {
-            props.dispatch({
-              type: 'SUBMIT'
-            });
-          } else {
-            alert(response.data.err);
-          }
-        })
-        .catch(err => {
-          alert(err);
-        });
+    if (comment !== '') {
+      const response = await axios.post('/api/comment', body);
+      if (response.data.success) {
+        setComment('');
+        await getComments();
+      } else {
+        alert(response.data.err);
+      }
     }
   };
 
@@ -142,7 +82,7 @@ const Comments = props => {
             placeholder="Try not to be too mean..."
             multiline
             onChange={e => handleComment(e.target.value)}
-            value={props.comment}
+            value={comment}
           />
         </div>
         <div style={{ marginTop: '-10px' }}>
@@ -159,4 +99,4 @@ const Comments = props => {
 };
 export default connect(storeObject => {
   return storeObject;
-})(Comments);
+})(withRouter(Comments));

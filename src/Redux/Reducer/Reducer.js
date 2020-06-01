@@ -11,17 +11,6 @@ const user = (state = null, action) => {
   }
 };
 
-const comments = (state = '', action) => {
-  switch (action.type) {
-    case 'ADD_COMMENT':
-      return action.payload;
-    case 'SUBMIT':
-      return '';
-    default:
-      return state;
-  }
-};
-
 const setBook = (state = '', action) => {
   switch (action.type) {
     case 'SET_BOOK':
@@ -107,6 +96,5 @@ export default combineReducers({
   authorName,
   summary,
   reviews,
-  setBook,
-  comments
+  setBook
 });

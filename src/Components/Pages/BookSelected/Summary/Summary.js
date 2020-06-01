@@ -1,10 +1,8 @@
 import React from 'react';
 import './Summary.css';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,8 +16,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Summary = props => {
-  const classes = useStyles();
-
   const [summary, setSummary] = React.useState([]);
 
   React.useEffect(() => {
@@ -30,7 +26,11 @@ const Summary = props => {
           setSummary(
             response.data.Book.map(e => {
               if (e.Id === Number(props.match.params.id)) {
-                return <div className="summary-app-text">{e.BookSummary}</div>;
+                return (
+                  <div key={e.Id} className="summary-app-text">
+                    {e.BookSummary}
+                  </div>
+                );
               }
             })
           );
@@ -42,27 +42,7 @@ const Summary = props => {
     displaySummary();
   }, []);
 
-  return (
-    <div className="Summary-App">
-      {summary}
-      {/* <div className="summary-like-buttons-container">
-        <Button
-          variant="outlined"
-          className="summary-button-like"
-          color="primary"
-        >
-          Like
-        </Button>
-        <Button
-          variant="outlined"
-          className="summary-button-like"
-          color="secondary"
-        >
-          Dislike
-        </Button>
-      </div> */}
-    </div>
-  );
+  return <div className="Summary-App">{summary}</div>;
 };
 
-export default Summary;
+export default withRouter(Summary);

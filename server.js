@@ -154,6 +154,17 @@ app.get('/api/comments', (req, res, next) => {
   const db = app.get('db');
   db.Comments.find()
     .then(comment => {
+      const commentPromises = comment.map(e => {
+        return db.User.findOne({
+          Id: e.UserId
+        }).then(user => {
+          e.username = user.Username;
+          return e;
+        });
+      });
+      return Promise.all(commentPromises);
+    })
+    .then(comment => {
       res.send({ Comments: comment });
     })
     .catch(err => {
@@ -174,20 +185,19 @@ app.get('/api/replies', (req, res, next) => {
 });
 
 // Make Replies
-app.post('/api/replies', (req, res, next) => {
+app.get('/api/replies', (req, res, next) => {
   const db = app.get('db');
   const date = new Date();
-  const { Comment /*, BookId */ } = req.body;
-  db.CommentReply.insert({
+  const { Comment, BookId } = req.body;
+  db.CommentsReply.insert({
     Comment,
-    // UserId: req.session.user.id,
-    // BookId: ????,
-    //CommentId:????,
+    UserId: req.session.User.Id,
     TimePosted: date,
+    BookId,
     IsActive: true
   })
-    .then(item => {
-      res.send({ success: true, item });
+    .then(comment => {
+      res.send({ Comments: comment });
     })
     .catch(err => {
       res.send({ success: false, err });

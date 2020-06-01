@@ -1,6 +1,7 @@
 import React from 'react';
 import './Rating.css';
 import axios from 'axios';
+import { withRouter } from 'react-router';
 
 const Rating = props => {
   const [rating, setRating] = React.useState([]);
@@ -47,4 +48,4 @@ const Rating = props => {
   return <div className="Rating-App">{rating}</div>;
 };
 
-export default Rating;
+export default withRouter(Rating);

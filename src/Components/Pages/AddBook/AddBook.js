@@ -30,7 +30,6 @@ const AddBook = props => {
     const crap = genres.filter((e, i) => {
       return stepIndex - 1 === i;
     })[0];
-    console.log(crap);
     return stepIndex === 0 ? (
       <SumTitAuth />
     ) : stepIndex === genres.length + 1 ? (

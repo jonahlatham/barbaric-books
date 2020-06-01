@@ -13,11 +13,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SumTitAuth = props => {
-  const classes = useStyles();
-  const [bookTitle, setBookTitle] = React.useState('');
-  const [author, setAuthor] = React.useState('');
-  const [summary, setSummary] = React.useState('');
-
   const handleTitle = payload => {
     props.dispatch({
       type: 'SET_BOOK_TITLE',
@@ -62,12 +57,12 @@ const SumTitAuth = props => {
       <TextField
         id="outlined-multiline-static"
         label="Summary"
-        placeholder="Give a brief summary of the book. Try to leave the personal opinions in the comments."
+        placeholder="Give a brief summary of the book. Try to leave personal opinions in the comments."
         multiline
         rows={10}
         variant="outlined"
         onChange={e => handleSummary(e.target.value)}
-          value={props.summary}
+        value={props.summary}
       />
     </div>
   );

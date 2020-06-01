@@ -10,7 +10,7 @@ const BookSelected = () => {
       <Summary />
       <Rating />
       <Comments />
-      <div>Related Books</div>
+      {/* <div>Related Books</div> */}
     </div>
   );
 };

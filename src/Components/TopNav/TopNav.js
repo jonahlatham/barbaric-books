@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './TopNav.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -35,6 +35,7 @@ class TopNav extends Component {
         </div>
         <div className="topnav-right-side">
           <Link
+            to="/"
             className="link topnav-link-on-right"
             onClick={this.handleLogout}
           >

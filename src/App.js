@@ -8,9 +8,6 @@ import Register from './Components/Pages/Register/Register';
 import AllBooks from './Components/Pages/AllBooks/AllBooks';
 import AddBook from './Components/Pages/AddBook/AddBook';
 import BookSelected from './Components/Pages/BookSelected/BookSelected';
-import Summary from './Components/Pages/BookSelected/Summary/Summary';
-import Rating from './Components/Pages/BookSelected/Rating/Rating';
-import Comments from './Components/Pages/BookSelected/Comments/Comments';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -47,10 +44,7 @@ class App extends Component {
       authRoutes = [
         <Route key={1} path="/AllBooks" component={AllBooks} />,
         <Route key={2} path="/AddBook" component={AddBook} />,
-        // <Route key={3} path="/BookSelected/:id" component={Summary} />,
-        // <Route key={3} path="/BookSelected/:id" component={Rating} />,
-        <Route key={3} path="/BookSelected/:id" component={Comments} />,
-        <Route key={4} path="/BookSelected" component={BookSelected} />,
+        <Route key={4} path="/BookSelected/:id" component={BookSelected} />,
         <Route key={5} path="/Home" component={Home} />
       ];
     }

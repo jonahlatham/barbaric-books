@@ -11,6 +11,10 @@
     padding: 20px 0px;
 }
 
+.comment {
+    padding-bottom: 20px;
+}
+
 .comments-add-comment {
     background: #c4c4c485;
     width: 75%;
@@ -29,20 +33,20 @@
 }
 
 .comments-add-comment-input-container {
-    width: 81.5%;
+    width: 100%;
     /* margin-left: 5px; */
 }
 
 .comments-add-comment-input {
     width: 100%;
     overflow-y: scroll;
-    background: #E0E0E0;
     max-height: 50px;
 }
 
-.comments-add-comment-input::-webkit-scrollbar {
+
+/* .comments-add-comment-input::-webkit-scrollbar {
     background: #E0E0E0;
-}
+} */
 
 .comments-add-comment-input:focus {
     outline: none;
@@ -94,16 +98,23 @@
     position: relative;
 }
 
+.comments-date {
+    font-size: 10px;
+    font-style: italic;
+    color: #333333
+}
+
 .comments-section {
     overflow-y: scroll;
     max-height: 500px;
     margin-bottom: 20px;
 }
 
-.comments-section::-webkit-scrollbar {
+
+/* .comments-section::-webkit-scrollbar {
     background: #FFFFFF;
-    /* scrollbar-color: dark; */
-}
+    scrollbar-color: dark; 
+} */
 
 .comments-replys-container {
     text-align: left;
@@ -117,4 +128,56 @@
     padding: 1px 13px 30px 20px;
     border-radius: 10px;
     position: relative;
+}
+
+.reply-container {
+    width: 450px;
+    height: 105px;
+    border-radius: 25px;
+}
+
+.comments-add-add-replies {
+    margin: auto;
+    margin-top: 10px;
+    background: #c4c4c4;
+    width: 90%;
+    min-height: 55px;
+    max-height: 500px;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+}
+
+.comments-add-add-replies-displayed {
+    margin: auto;
+    margin-top: 10px;
+    background: #c4c4c4;
+    width: 90%;
+    min-height: 55px;
+    max-height: 615px;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+}
+
+.opened-displayed-comments {
+    margin-top: 50px;
+    background: #c4c4c485;
+    width: 600px;
+    height: 55px;
+}
+
+.CommentReplies-App {
+    display: flex;
+    flex-direction: column;
+}
+
+.MuiButton-text {
+    padding: 1px !important;
+}
+
+.MuiSvgIcon-root {
+    padding-top: 4px;
 }
