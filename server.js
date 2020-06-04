@@ -175,7 +175,18 @@ app.get('/api/comments', (req, res, next) => {
 //Get Replies
 app.get('/api/replies', (req, res, next) => {
   const db = app.get('db');
-  db.CommentReply.find()
+  db.CommentReply.find({ CommentId: req.query.commentId })
+    .then(comment => {
+      const commentPromises = comment.map(e => {
+        return db.User.findOne({
+          Id: e.UserId
+        }).then(user => {
+          e.username = user.Username;
+          return e;
+        });
+      });
+      return Promise.all(commentPromises);
+    })
     .then(comment => {
       res.send({ CommentReply: comment });
     })
@@ -185,15 +196,16 @@ app.get('/api/replies', (req, res, next) => {
 });
 
 // Make Replies
-app.get('/api/replies', (req, res, next) => {
+app.post('/api/replies', (req, res, next) => {
   const db = app.get('db');
   const date = new Date();
-  const { Comment, BookId } = req.body;
-  db.CommentsReply.insert({
-    Comment,
+  const { Comment, BookId, CommentId } = req.body;
+  db.CommentReply.insert({
     UserId: req.session.User.Id,
-    TimePosted: date,
     BookId,
+    CommentId,
+    Comment,
+    TimePosted: date,
     IsActive: true
   })
     .then(comment => {
@@ -295,6 +307,38 @@ app.post('/api/book', (req, res, next) => {
     })
     .then(response => {
       res.send({ success: true });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
+//////////////////////////////////////////////////////////////////
+// Make Likes
+app.post('/api/commentLike', (req, res, next) => {
+  const db = app.get('db');
+  const date = new Date();
+  const { ReactionType, CommentId } = req.body;
+  db.CommentLike.insert({
+    UserId: req.session.User.Id,
+    ReactionType,
+    CommentId,
+    IsActive: true,
+    DateAdded: date
+  })
+    .then(item => {
+      res.send({ success: true, item });
+    })
+    .catch(err => {
+      res.send({ success: false, err });
+    });
+});
+
+//Get Like
+app.get('/api/commentLike', (req, res, next) => {
+  const db = app.get('db');
+  db.CommentLike.find({ CommentId: req.query.commentId })
+    .then(rating => {
+      res.send({ Rating: rating });
     })
     .catch(err => {
       res.send({ success: false, err });

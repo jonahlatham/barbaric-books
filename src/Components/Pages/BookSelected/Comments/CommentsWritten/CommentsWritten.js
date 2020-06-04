@@ -9,7 +9,7 @@ import ReplyIcon from '@material-ui/icons/Reply';
 import CommentReplies from './CommentReplies';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
-import RepliesDisplayed from './RepliesDisplayed';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   typography: {
@@ -24,6 +24,42 @@ const CommentsWritten = props => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [openReplies, setOpenReplies] = React.useState(false);
+  const [replies, setReplies] = React.useState('');
+  const [likes, setLikes] = React.useState('');
+  const [dislikes, setDislikes] = React.useState('');
+
+  const handleGetReplies = async () => {
+    const response = await axios.get(`/api/replies?commentId=${props.data.Id}`);
+    setReplies(response.data);
+  };
+
+  const handleGetLikes = async () => {
+    const response = await axios.get(
+      `/api/commentLike?commentId=${props.data.Id}`
+    );
+    let likes = [];
+    let dislikes = [];
+    response.data.Rating.map(e => {
+      if (e.ReactionType === 1) {
+        likes.push(e);
+      } else {
+        dislikes.push(e);
+      }
+    });
+    setLikes(likes);
+    setDislikes(dislikes);
+  };
+
+  React.useEffect(() => {
+    const displayComment = async () => {
+      await handleGetReplies();
+    };
+    const displayLikes = async () => {
+      await handleGetLikes();
+    };
+    displayComment();
+    displayLikes();
+  }, []);
 
   const handleOpenReplies = () => {
     setOpenReplies(true);
@@ -33,8 +69,22 @@ const CommentsWritten = props => {
     setOpenReplies(false);
   };
 
+  const handleLike = () => {
+    const body = {
+      ReactionType: 1,
+      CommentId: props.data.Id
+    };
+    axios.post('/api/commentLike', body);
+  };
+  const handleDislike = () => {
+    const body = {
+      ReactionType: 2,
+      CommentId: props.data.Id
+    };
+    axios.post('/api/commentLike', body);
+  };
+
   const id = open ? 'simple-popover' : undefined;
-  console.log(props);
   return (
     <div key={props.data.Id} className="comments-comments">
       <p>
@@ -48,30 +98,8 @@ const CommentsWritten = props => {
       <div className="comment">{props.data.Comment}</div>
       <div className="comments-comment-button-container">
         <ButtonGroup variant="text" aria-label="text primary button group">
-          {/* <small className="comments-comment-button-text">900</small> */}
-          {/* <small className="comments-comment-button-text">900</small> */}
-          <Button /*className="replies-Button-container"*/>
-            <div
-              onClick={handleOpenReplies}
-              className="comments-comment-button"
-            >
-              <ImportExportIcon style={{ fontSize: 15 }} />
-            </div>
-            <Modal
-              open={openReplies}
-              onClose={handleCloseReplies}
-              aria-labelledby="simple-modal-title"
-              aria-describedby="simple-modal-description"
-            >
-              <CommentReplies
-                BookId={props.data.BookId}
-                CommentId={props.data.Id}
-              />
-            </Modal>
-          </Button>
-          {/* <small className="comments-comment-button-text">900</small> */}
-          {/* <small className="comments-comment-button-text">900</small> */}
           <Button className="comments-comment-button">
+            {replies.CommentReply ? replies.CommentReply.length : ''}
             <div
               onClick={handleOpenReplies}
               className="comments-comment-button"
@@ -87,14 +115,33 @@ const CommentsWritten = props => {
               <CommentReplies
                 BookId={props.data.BookId}
                 CommentId={props.data.Id}
+                Replies={replies}
+                Closer={handleCloseReplies}
+                handleGetReplies={handleGetReplies}
               />
             </Modal>
           </Button>
-          <Button color="primary" className="comments-comment-button">
-            <ThumbUpAltIcon style={{ fontSize: 15 }} />
+          <Button
+            color="primary"
+            className="comments-comment-button"
+            onClick={handleLike}
+          >
+            <ThumbUpAltIcon
+              style={{ fontSize: 15, paddingLeft: '5px', paddingBottom: '3px' }}
+            />
+            <div style={{ padding: '0px 5px' }}>{likes ? likes.length : 0}</div>
           </Button>
-          <Button color="secondary" className="comments-comment-button">
-            <ThumbDownAltIcon style={{ fontSize: 15 }} />
+          <Button
+            color="secondary"
+            className="comments-comment-button"
+            onClick={handleDislike}
+          >
+            <ThumbDownAltIcon
+              style={{ fontSize: 15, paddingLeft: '5px', paddingBottom: '3px' }}
+            />
+            <div style={{ padding: '0px 5px' }}>
+              {dislikes ? dislikes.length : 0}
+            </div>
           </Button>
         </ButtonGroup>
       </div>

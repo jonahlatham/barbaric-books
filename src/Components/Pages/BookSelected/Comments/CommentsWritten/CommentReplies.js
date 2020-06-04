@@ -4,28 +4,28 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
+import moment from 'moment';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const CommentReplies = props => {
+  var d = new Date();
+  var n = d.getHours();
   const [comment, setComment] = React.useState('');
 
-  const handleAddComment = () => {
-    debugger;
+  const handleAddComment = async () => {
     const body = {
       Comment: comment,
       BookId: props.BookId,
       CommentId: props.CommentId
     };
     if (comment !== '') {
-      debugger;
-      //   if (response.data.success) {
-      return axios.post('/api/replies', body);
-      alert('duh dunna dunnahhhh');
+      await axios.post('/api/replies', body);
       setComment('');
-      //   } else {
-      //     alert(response.data.err);
-      //   }
-    } else {
-      alert("you've been flipped the bird");
+      props.handleGetReplies();
     }
   };
 
@@ -33,11 +33,56 @@ const CommentReplies = props => {
     setComment(payload);
   };
 
+  let displayReplies;
+  if (props.Replies && props.Replies.CommentReply) {
+    displayReplies = props.Replies.CommentReply.map(e => {
+      return (
+        <div key={e.Id} className="comments-comments">
+          <p>
+            <strong>Name: {e.username} </strong>
+            <sup className="comments-date">
+              {moment(e.TimePosted)
+                .startOf(n)
+                .fromNow()}
+            </sup>
+          </p>
+          <div className="comment">{e.Comment}</div>
+          <div className="comments-comment-button-container">
+            <ButtonGroup variant="text" aria-label="text primary button group">
+              <Button color="primary" className="comments-comment-button">
+                <ThumbUpAltIcon
+                  style={{
+                    fontSize: 15,
+                    paddingLeft: '5px',
+                    paddingBottom: '3px'
+                  }}
+                />
+                <div style={{ padding: '0px 5px' }}>0</div>
+              </Button>
+              <Button color="secondary" className="comments-comment-button">
+                <ThumbDownAltIcon
+                  style={{
+                    fontSize: 15,
+                    paddingLeft: '5px',
+                    paddingBottom: '3px'
+                  }}
+                />
+                <div style={{ padding: '0px 5px' }}>0</div>
+              </Button>
+            </ButtonGroup>
+          </div>
+        </div>
+      );
+    });
+  }
   return (
     <div className="CommentReplies-App">
-      <div className="comments-add-add-replies-displayed">
-        you think you so damn clever?
-      </div>
+      <HighlightOffIcon
+        style={{ fontSize: '35px' }}
+        className="close-comment-replies"
+        onClick={props.Closer}
+      />
+      <div className="comments-add-add-replies-displayed">{displayReplies}</div>
       <div className="comments-add-add-replies">
         <div className="comments-add-comment-input-container">
           <TextField
