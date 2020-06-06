@@ -52,16 +52,21 @@ function Login(props) {
           <TextField
             autoFocus
             id="outlined-email"
-            label="Email or Username"
+            label="Email"
             type="search"
             variant="outlined"
             onChange={e => setEmail(e.target.value)}
             placeholder="Did you make it unique?"
           />
           <TextField
+            onKeyPress={event => {
+              if (event.key === 'Enter') {
+                handleLogin();
+              }
+            }}
             id="outlined-password"
             label="Password"
-            type="search"
+            type="password"
             variant="outlined"
             onChange={e => setPassword(e.target.value)}
             placeholder="Don't tell me you forgot..."

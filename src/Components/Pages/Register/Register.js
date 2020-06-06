@@ -28,7 +28,8 @@ const Register = props => {
       Email: email,
       Password: password
     };
-    axios.post('/auth/register', body)
+    axios
+      .post('/auth/register', body)
       .then(response => {
         if (response.data.success) {
           props.dispatch({
@@ -71,9 +72,14 @@ const Register = props => {
             onChange={e => setPassword(e.target.value)}
             id="outlined-search"
             label="Password"
-            type="search"
+            type="password"
             variant="outlined"
             placeholder="Please make it hard"
+            onKeyPress={event => {
+              if (event.key === 'Enter') {
+                handleRegister();
+              }
+            }}
           />
           <div className="register-button-container">
             <Button

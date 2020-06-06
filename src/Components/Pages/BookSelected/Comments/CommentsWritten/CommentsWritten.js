@@ -69,19 +69,22 @@ const CommentsWritten = props => {
     setOpenReplies(false);
   };
 
-  const handleLike = () => {
+  const handleLike = async () => {
     const body = {
       ReactionType: 1,
       CommentId: props.data.Id
     };
-    axios.post('/api/commentLike', body);
+    await axios.post('/api/commentLike', body);
+    await handleGetLikes();
   };
-  const handleDislike = () => {
+
+  const handleDislike = async () => {
     const body = {
       ReactionType: 2,
       CommentId: props.data.Id
     };
-    axios.post('/api/commentLike', body);
+    await axios.post('/api/commentLike', body);
+    await handleGetLikes();
   };
 
   const id = open ? 'simple-popover' : undefined;

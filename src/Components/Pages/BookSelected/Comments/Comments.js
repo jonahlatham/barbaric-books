@@ -83,6 +83,11 @@ const Comments = props => {
             multiline
             onChange={e => handleComment(e.target.value)}
             value={comment}
+            onKeyPress={event => {
+              if (event.key === 'Enter') {
+                handleAddComment();
+              }
+            }}
           />
         </div>
         <div style={{ marginTop: '-10px' }}>
