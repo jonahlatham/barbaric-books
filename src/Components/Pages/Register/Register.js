@@ -40,6 +40,15 @@ const Register = props => {
         } else {
           alert(response.data.err);
         }
+        return axios.get('/api/ratingName');
+      })
+      .then(response => {
+        if (response.data.success) {
+          props.dispatch({
+            type: 'SET_INITIAL_REVIEWS_STATE',
+            payload: response.data.genre
+          });
+        }
       })
       .catch(err => {
         alert(err);

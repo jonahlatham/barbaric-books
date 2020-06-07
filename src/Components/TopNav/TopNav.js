@@ -7,16 +7,23 @@ import { withRouter } from 'react-router';
 
 class TopNav extends Component {
   handleLogout = () => {
-    axios.delete('/auth/user').then(response => {
-      if (response.data.success) {
+    axios
+      .delete('/auth/user')
+      .then(response => {
+        if (response.data.success) {
+          this.props.dispatch({
+            type: 'LOGOUT'
+          });
+          this.props.history.push('/');
+        } else {
+          alert('something blew up');
+        }
+      })
+      .then(() => {
         this.props.dispatch({
-          type: 'LOGOUT'
+          type: 'RESET'
         });
-        this.props.history.push('/');
-      } else {
-        alert('something blew up');
-      }
-    });
+      });
   };
 
   render() {
