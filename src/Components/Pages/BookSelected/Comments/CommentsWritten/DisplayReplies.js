@@ -73,7 +73,7 @@ const DisplayReplies = props => {
               color="primary"
               className="comments-comment-button"
             >
-              <div style={{ padding: '0px 5px' }}>
+              <div>
                 {likes ? likes.length : 0}
               </div>
               <ThumbUpAltIcon
