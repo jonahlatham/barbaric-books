@@ -75,8 +75,14 @@ app.post('/auth/register', (req, res, next) => {
       );
       if (user) {
         throw 'This username is already in use, please pick a different one.';
-      } else if (!condition1 || !condition2 || !condition3) {
-        throw "The boxes aren't filled out correctly";
+      } else if (!condition1 && !condition2 && !condition3) {
+        throw 'All boxes must be filled';
+      } else if (!condition1) {
+        throw 'Username can contain letters, numbers, or an underscore/hyphen';
+      } else if (!condition2) {
+        throw 'Make sure you are using a real email';
+      } else if (!condition3) {
+        throw 'Password must contain 1 capital letter, 1 number, 1 special character, and contain 7-15 characters';
       } else {
         return db.User.findOne({ Email }).then(ema => {
           if (ema) {
