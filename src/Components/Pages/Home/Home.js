@@ -7,7 +7,7 @@ export default class Home extends Component {
         <h1>Welcome to Barbaric Books</h1>
         <p className="home-text">
           Much like movies and shows, books can have a range of different
-          ratings. For some people ratings don't really matter; however, for
+          ratings. For some people, ratings don't really matter. However, for
           many of us, we care about the kind of media we are exposed to. With
           Barbaric Books you can look up books you want to read and find out
           exactly what type of content is inside before you read it.
@@ -20,7 +20,7 @@ export default class Home extends Component {
           Books" tab you will be able to search for books that others have
           already reviewed. It will have a scale rating from 1-10 on how much
           explicit content it contains. You also get a chance to leave a comment
-          or like one an already made one. <strong>Warning</strong> you most
+          or like one that has already been made. <strong>Warning:</strong> you most
           likely will find spoilers.
         </p>
         <p className="home-text">
