@@ -55,12 +55,13 @@ function Login(props) {
 
   return (
     <div className="Login-App">
-      <form className={classes.root} noValidate autoComplete="off">
+      <div className={classes.root} noValidate autoComplete="off">
         <div className="login-input-container">
           <div className="login-logo">BB</div>
           <TextField
+            className="login-input"
             autoFocus
-            id="outlined-email"
+            id="login-outlined-email"
             label="Email"
             type="search"
             variant="outlined"
@@ -68,12 +69,13 @@ function Login(props) {
             placeholder="Did you make it unique?"
           />
           <TextField
+            className="login-input"
             onKeyPress={event => {
               if (event.key === 'Enter') {
                 handleLogin();
               }
             }}
-            id="outlined-password"
+            id="login-outlined-password"
             label="Password"
             type="password"
             variant="outlined"
@@ -93,7 +95,7 @@ function Login(props) {
             Register
           </Link>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

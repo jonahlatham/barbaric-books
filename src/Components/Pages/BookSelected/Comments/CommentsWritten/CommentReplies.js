@@ -6,6 +6,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import axios from 'axios';
 import DisplayReplies from './DisplayReplies';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import moment from 'moment';
 
 const CommentReplies = props => {
   var d = new Date();
@@ -54,6 +55,20 @@ const CommentReplies = props => {
           onClick={props.Closer}
         />
         <div className="comments-add-add-replies-displayed">
+          <div
+            key={props.comment.Id}
+            className="comments-comments comments-comments-clicked"
+          >
+            <p>
+              <strong>Name: {props.comment.username} </strong>
+              <sup className="comments-date comments-date-clicked">
+                {moment(props.comment.TimePosted)
+                  .startOf(n)
+                  .fromNow()}
+              </sup>
+            </p>
+            <div className="comment">{props.comment.Comment}</div>
+          </div>
           {displayReplies}
         </div>
         <div className="comments-add-add-replies">

@@ -116,6 +116,7 @@ const CommentsWritten = props => {
               aria-describedby="simple-modal-description"
             >
               <CommentReplies
+                comment={props.data}
                 BookId={props.data.BookId}
                 CommentId={props.data.Id}
                 Replies={replies}

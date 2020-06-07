@@ -7,7 +7,7 @@
     margin-top: 150px;
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 40%;
     height: 310px;
     border-width: 2px;
     border-style: solid;
@@ -27,17 +27,22 @@
 }
 
 .login-button-container {
+    width: 90%;
     margin-top: 10px;
     margin-bottom: 3px;
     padding: 0px 20px 0px 20px;
 }
 
 .login-button {
-    width: 240px;
+    width: 100%;
 }
 
 .reg-log {
     color: blue;
     font-size: 15px;
     margin-top: 10px;
+}
+
+.login-input {
+    width: 90% !important;
 }

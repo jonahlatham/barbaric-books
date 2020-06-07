@@ -20,6 +20,7 @@ const Register = props => {
   const [username, setUsername] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [rePassword, setRePassword] = React.useState('');
   const classes = useStyles();
 
   const handleRegister = () => {
@@ -55,44 +56,75 @@ const Register = props => {
       });
   };
 
+  const handleBirdFlip = () => {
+    alert("Your passwords don't match up.");
+  };
+
   return (
     <div className="register-App">
       <form className={classes.root} noValidate autoComplete="off">
         <div className="register-input-container">
           <div className="register-logo">BB</div>
+          <small className="register-small-instructions">
+            Username can contain letters, numbers, and underscores and hyphens.
+          </small>
           <TextField
+            className="register-input"
             autoFocus
             onChange={e => setUsername(e.target.value)}
-            id="outlined-search"
+            id="register-outlined-username"
             label="Username"
             type="search"
             variant="outlined"
             placeholder="You could be superman"
           />
+          <small className="register-small-instructions">
+            It must be a real email
+          </small>
           <TextField
+            className="register-input"
             onChange={e => setEmail(e.target.value)}
-            id="outlined-search"
+            id="register-outlined-email"
             label="Email"
             type="search"
             variant="outlined"
             placeholder="example@example.com"
           />
+          <small className="register-small-instructions">
+            Passwords must contain 1 capital, 1 lowercase, 1 number, 1 special
+            character, and must be between 7-15 characters.
+          </small>
           <TextField
+            className="register-input"
             onChange={e => setPassword(e.target.value)}
-            id="outlined-search"
+            id="register-outlined-password"
             label="Password"
             type="password"
             variant="outlined"
             placeholder="Please make it hard"
+          />
+          <small className="register-small-instructions">
+            Make sure your password matches your first input
+          </small>
+          <TextField
+            className="register-input"
+            onChange={e => setRePassword(e.target.value)}
+            id="register-outlined-password-retype"
+            label="Re-enter Password"
+            type="password"
+            variant="outlined"
+            placeholder="Let's see if you made any mistakes"
             onKeyPress={event => {
               if (event.key === 'Enter') {
-                handleRegister();
+                password === rePassword ? handleRegister() : handleBirdFlip();
               }
             }}
           />
           <div className="register-button-container">
             <Button
-              onClick={handleRegister}
+              onClick={
+                password === rePassword ? handleRegister : handleBirdFlip
+              }
               variant="contained"
               className="register-button"
             >

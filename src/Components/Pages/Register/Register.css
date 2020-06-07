@@ -4,11 +4,11 @@
 
 .register-input-container {
     margin: auto;
-    margin-top: 150px;
+    margin-top: 90px;
     display: flex;
     flex-direction: column;
-    width: 300px;
-    height: 370px;
+    width: 40%;
+    min-height: 370px;
     border-width: 2px;
     border-style: solid;
     align-items: center;
@@ -29,8 +29,18 @@
 .register-button-container {
     margin-top: 10px;
     padding: 0px 20px 0px 20px;
+    width: 90%;
 }
 
 .register-button {
-    width: 240px;
+    width: 100%;
+}
+
+.register-input {
+    width: 90% !important;
+}
+
+.register-small-instructions {
+    text-align: left;
+    width: 88%;
 }

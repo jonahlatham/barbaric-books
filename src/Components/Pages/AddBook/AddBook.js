@@ -129,13 +129,14 @@ const AddBook = props => {
                   Back
                 </Button>
                 <Button
+                  // disabled={}
                   variant="contained"
                   color="primary"
                   onClick={
                     activeStep === steps.length - 1 ? handleSubmit : handleNext
                   }
                 >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
               </div>
             </div>

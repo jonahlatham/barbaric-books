@@ -73,7 +73,7 @@ const AlcoholDrugSmoking = props => {
         <TextField
           label={props.genre.SuggestiveContent}
           id="outlined-size-small"
-          placeholder="Be descriptive"
+          placeholder='Write "NONE" if it does not contain any explicit content'
           variant="outlined"
           size="small"
           multiline
