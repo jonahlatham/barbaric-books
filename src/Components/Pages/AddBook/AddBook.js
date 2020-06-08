@@ -96,8 +96,6 @@ const AddBook = props => {
     setActiveStep(0);
   };
 
-  const [value, setValue] = React.useState('Controlled');
-
   return (
     <div className="AddBook-App">
       <div className={classes.root}>
@@ -129,7 +127,11 @@ const AddBook = props => {
                   Back
                 </Button>
                 <Button
-                  // disabled={}
+                  disabled={
+                    props.summary === '' ||
+                    props.authorName === '' ||
+                    props.bookTitle === ''
+                  }
                   variant="contained"
                   color="primary"
                   onClick={
