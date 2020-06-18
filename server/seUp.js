@@ -7,8 +7,7 @@ const path = require('path');
 require('dotenv').config();
 
 module.exports = app => {
-  app.use(express.static(path.join(__dirname, '/build')));
-
+  
   app.use(cors());
   app.use(bodyParser.json());
 

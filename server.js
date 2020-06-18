@@ -8,6 +8,7 @@ const rating = require('./server/controlers/rating');
 const likes = require('./server/controlers/likes');
 const setUp = require('./server/seUp');
 const app = setUp(express());
+app.use(express.static(path.join(__dirname, '/build')));
 //////////////////////////////////////////////////////////////////
 
 app.get('/auth/user', user.authUser);
